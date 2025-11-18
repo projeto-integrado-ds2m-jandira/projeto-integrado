@@ -26,3 +26,4 @@
 (id_tipo PK, nome)
 
 10. Likes
+(id_likes, quantidade int (auto_increment))
