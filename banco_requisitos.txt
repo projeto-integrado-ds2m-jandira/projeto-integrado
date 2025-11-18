@@ -2,7 +2,7 @@
 (id_usuario PK, nome, email, senha_hash, data_criacao)
 
 2. receitas
-(id_receita PK, id_usuario FK, titulo, tempo_preparo, dificuldade FK, categoria FK, notas (informações adicionais), datas)
+(id_receita PK, id_usuario FK, titulo, tempo_preparo, dificuldade FK, categoria FK, notas (informações adicionais?), datas)
 
 3. ingredientes
 (id_ingrediente PK, nome, alergeno, tipo)
@@ -21,3 +21,5 @@
 
 8. dificuldades
 (id_dificuldade PK, nome)
+
+9. tipo de cozinha (verificar)
