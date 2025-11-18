@@ -1,0 +1,23 @@
+1. usuarios
+(id_usuario PK, nome, email, senha_hash, data_criacao, genero)
+
+2. receitas
+(id_receita PK, id_usuario FK, titulo, tempo_preparo, passos_preparo, calorias, dificuldade FK, categoria FK, avaliacao, data_cadastro, likes)
+
+3. ingredientes
+(id_ingrediente PK, nome, alergeno, tipo(?))
+
+4. unidades_medida
+(id_unidade PK, nome, abreviacao)
+
+5. receita_ingredientes
+(id_receita FK, id_ingrediente FK, id_unidade FK, quantidade)
+
+6. categorias
+(id_categoria PK, nome)
+
+7. dificuldades
+(id_dificuldade PK, nome)
+
+8. Tipo cozinha?
+(id_tipo PK, nome)
