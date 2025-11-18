@@ -14,28 +14,28 @@
           <mxGeometry x="220" y="150" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="kj9sffbl15-dQNFnEUkL-2" value="receitas" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
-          <mxGeometry x="70" y="450" width="100" height="40" as="geometry" />
+          <mxGeometry x="290" y="490" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="kj9sffbl15-dQNFnEUkL-3" value="ingredientes" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
-          <mxGeometry x="860" y="600" width="100" height="40" as="geometry" />
+          <mxGeometry x="1080" y="640" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="kj9sffbl15-dQNFnEUkL-4" value="ingredientes" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
           <mxGeometry x="720" y="910" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="kj9sffbl15-dQNFnEUkL-5" value="unidades_medida" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
-          <mxGeometry x="160" y="590" width="140" height="40" as="geometry" />
+          <mxGeometry x="380" y="630" width="140" height="40" as="geometry" />
         </mxCell>
         <mxCell id="kj9sffbl15-dQNFnEUkL-6" value="categorias" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
-          <mxGeometry x="530" y="590" width="140" height="40" as="geometry" />
+          <mxGeometry x="750" y="630" width="140" height="40" as="geometry" />
         </mxCell>
         <mxCell id="kj9sffbl15-dQNFnEUkL-7" value="dificuldades" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
-          <mxGeometry x="310" y="400" width="100" height="40" as="geometry" />
+          <mxGeometry x="530" y="440" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="kj9sffbl15-dQNFnEUkL-8" value="tipo_cozinha" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
-          <mxGeometry x="610" y="400" width="100" height="40" as="geometry" />
+          <mxGeometry x="830" y="440" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="kj9sffbl15-dQNFnEUkL-9" value="likes" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
-          <mxGeometry x="810" y="400" width="100" height="40" as="geometry" />
+          <mxGeometry x="1030" y="440" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="kj9sffbl15-dQNFnEUkL-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;endArrow=none;endFill=0;" parent="1" source="kj9sffbl15-dQNFnEUkL-10" target="kj9sffbl15-dQNFnEUkL-1" edge="1">
           <mxGeometry relative="1" as="geometry" />
