@@ -109,3 +109,6 @@ foreign key (id_unidade)								# Qual a chave estrangeira
 references tb_unidades_medidas(id)
 
 );
+
+
+-- Avaliar a criação de tabela de status para poder inativar as demais tabelas sem exclusão
