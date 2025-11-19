@@ -1,3 +1,7 @@
+INSERT INTO tb_status (situacao) VALUES
+('Ativo'),
+('Inativo');
+
 INSERT INTO tb_dificuldades (nome) VALUES
 ('Fácil'),
 ('Média'),
@@ -81,6 +85,7 @@ INSERT INTO tb_receitas_ingredientes (id_receita, id_ingrediente, id_unidade, qu
 (3, 9, 3, 4),  -- Chocolate em Pó (4 CS)
 (3, 10, 3, 1); -- Manteiga (1 CS)
 
+select * from tb_status;
 select * from tb_receitas;
 select * from tb_usuarios;
 select * from tb_categorias;
