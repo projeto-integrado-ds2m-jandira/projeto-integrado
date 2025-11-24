@@ -32,7 +32,6 @@
 */
 
 //import da dependencia do Prisma que permite a execução de script SQL no BD
-const { cons } = require("effect/List");
 const { PrismaClient } = require("../../generated/prisma");
 
 //cria um novo objeto baseado na classe do PrismaClient
@@ -47,7 +46,7 @@ const prisma = new PrismaClient();
 const getSelectAllRecipes = async () => {
   try {
     //script SQL
-    let sql = `select * from tb_receitas order by id desc`;
+    let sql = `select * from tb_receitas where id_status = 1 order by id desc`;
 
     //encaminha para o BD o script SQL
     let result = await prisma.$queryRawUnsafe(sql);
@@ -199,10 +198,34 @@ const setUpdateRecipes = async (receita) => {
 
 // setUpdateRecipes(updateReceita);
 
+// Exclui uma receita pelo ID no banco de dados
+const setDeleteRecipes = async (id) => {
+  try {
+    //Script SQL
+    let sql = `UPDATE tb_receitas SET
+                    id_status = 2
+                        
+                    WHERE id = ${id}`;
+
+    //Encaminha para o BD o script SQL
+    let result = await prisma.$queryRawUnsafe(sql);
+
+    //console.log(Array.isArray(result))
+    if (Array.isArray(result)) return result;
+    else return false;
+  } catch (error) {
+    //console.log(error)
+    return false;
+  }
+};
+
+// setDeleteRecipes(4);
+
 module.exports = {
   getSelectAllRecipes,
   getSelectRecipesById,
   getSelectLastId,
   setInsertRecipes,
   setUpdateRecipes,
+  setDeleteRecipes,
 };
