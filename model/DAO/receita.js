@@ -127,16 +127,35 @@ const setInsertRecipes = async (receita) => {
 
     //executeRawUnsafe() -> executa o script SQL que não tem retorno de valores
     let result = await prisma.$executeRawUnsafe(sql);
+    console.log(result);
 
     if (result) return true;
     else return false;
   } catch (error) {
+    console.log(error);
     return false;
   }
 };
+
+// let novaReceita = {
+//   titulo: "Bolo de Cenoura",
+//   tempo_preparo: "01:00:00",
+//   passos_preparo: "Misture tudo e leve ao forno",
+//   calorias: 250,
+//   avaliacao: 4.5,
+//   likes: 150,
+//   data_cadastro: "2025-11-24",
+//   id_usuario: 1,
+//   id_dificuldade: 2,
+//   id_tipo_cozinha: 3,
+//   id_status: 1,
+// };
+
+// setInsertRecipes(novaReceita);
 
 module.exports = {
   getSelectAllRecipes,
   getSelectRecipesById,
   getSelectLastId,
+  setInsertRecipes,
 };
