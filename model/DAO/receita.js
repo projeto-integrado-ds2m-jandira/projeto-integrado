@@ -32,7 +32,6 @@
 */
 
 //import da dependencia do Prisma que permite a execução de script SQL no BD
-const { get } = require("http");
 const { PrismaClient } = require("../../generated/prisma");
 
 //cria um novo objeto baseado na classe do PrismaClient
@@ -51,7 +50,7 @@ const getSelectAllRecipes = async () => {
 
     //encaminha para o BD o script SQL
     let result = await prisma.$queryRawUnsafe(sql);
-    console.log(result);
+    // console.log(result);
 
     if (Array.isArray(result)) return result;
     else return false;
@@ -61,8 +60,27 @@ const getSelectAllRecipes = async () => {
   }
 };
 
-getSelectAllRecipes();
+// getSelectAllRecipes();
+
+const getSelectRecipesById = async (id) => {
+  try {
+    //script SQL
+    let sql = `select * from tb_receitas where id=${id}`;
+    //encaminha para o BD o script SQL
+    let result = await prisma.$queryRawUnsafe(sql);
+    // console.log(result);
+
+    if (Array.isArray(result)) return result;
+    else return false;
+  } catch (error) {
+    //console.log(error)
+    return false;
+  }
+};
+
+// getSelectRecipesById(2);
 
 module.exports = {
   getSelectAllRecipes,
+  getSelectRecipesById,
 };
