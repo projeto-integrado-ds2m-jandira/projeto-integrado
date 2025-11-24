@@ -32,6 +32,7 @@
 */
 
 //import da dependencia do Prisma que permite a execução de script SQL no BD
+const { cons } = require("effect/List");
 const { PrismaClient } = require("../../generated/prisma");
 
 //cria um novo objeto baseado na classe do PrismaClient
@@ -153,9 +154,55 @@ const setInsertRecipes = async (receita) => {
 
 // setInsertRecipes(novaReceita);
 
+// Altera uma receita pelo ID no banco de dados
+const setUpdateRecipes = async (receita) => {
+  try {
+    let sql = `UPDATE tb_receitas SET
+                        titulo = '${receita.titulo}',
+						tempo_preparo = '${receita.tempo_preparo}',
+                        passos_preparo = '${receita.passos_preparo}',
+                        calorias = '${receita.calorias}',
+                        avaliacao = '${receita.avaliacao}',
+                        likes = '${receita.likes}',
+                        data_cadastro = '${receita.data_cadastro}',
+                        id_dificuldade = '${receita.id_dificuldade}',
+                        id_tipo_cozinha = '${receita.id_tipo_cozinha}',
+                        id_status = '${receita.id_status}'
+                        
+                    WHERE id = ${receita.id}`;
+
+    //executeRawUnsafe() -> executa o script SQL que não tem retorno de valores
+    let result = await prisma.$executeRawUnsafe(sql);
+    console.log(result);
+
+    if (result) return true;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+// let updateReceita = {
+//   id: 4,
+//   titulo: "Bolo de Cenoura Cremoso",
+//   tempo_preparo: "01:25:00",
+//   passos_preparo: "Misture tudo e leve ao forno. Sirva gelado.",
+//   calorias: 350,
+//   avaliacao: 4.5,
+//   likes: 150,
+//   data_cadastro: "2025-11-24",
+//   id_dificuldade: 2,
+//   id_tipo_cozinha: 3,
+//   id_status: 1,
+// };
+
+// setUpdateRecipes(updateReceita);
+
 module.exports = {
   getSelectAllRecipes,
   getSelectRecipesById,
   getSelectLastId,
   setInsertRecipes,
+  setUpdateRecipes,
 };
