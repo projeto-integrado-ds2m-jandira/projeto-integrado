@@ -98,6 +98,43 @@ const getSelectLastId = async () => {
 
 // getSelectLastId();
 
+//insere uma receita nova no banco de dados
+const setInsertRecipes = async (receita) => {
+  try {
+    let sql = `INSERT INTO tb_receitas (
+                        titulo,
+						tempo_preparo,
+                        passos_preparo,
+                        calorias,
+                        avaliacao,
+                        likes,
+                        data_cadastro,
+                        id_usuario,
+                        id_dificuldade,
+                        id_tipo_cozinha,
+                        id_status)
+					values( '${receita.titulo}',
+							'${receita.tempo_preparo}',
+                            '${receita.passos_preparo}',
+                            '${receita.calorias}',
+                            '${receita.avaliacao}',
+                            '${receita.likes}',
+                            '${receita.data_cadastro}',
+                            '${receita.id_usuario}',
+                            '${receita.id_dificuldade}',
+                            '${receita.id_tipo_cozinha}',
+                            '${receita.id_status}')`;
+
+    //executeRawUnsafe() -> executa o script SQL que não tem retorno de valores
+    let result = await prisma.$executeRawUnsafe(sql);
+
+    if (result) return true;
+    else return false;
+  } catch (error) {
+    return false;
+  }
+};
+
 module.exports = {
   getSelectAllRecipes,
   getSelectRecipesById,
