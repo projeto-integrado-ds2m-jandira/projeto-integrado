@@ -80,7 +80,26 @@ const getSelectRecipesById = async (id) => {
 
 // getSelectRecipesById(2);
 
+//retorna o último ID gerado no DB. Sera utilizado para aparecer quando uma receita for adicionada
+const getSelectLastId = async () => {
+  try {
+    //script sql para retornar apenas o ultimo ID do DB
+    let sql = `select id from tb_receitas order by id desc limit 1;`;
+    //encaminha para o DB o script SQL
+    let result = await prisma.$queryRawUnsafe(sql);
+    // console.log(result);
+
+    if (Array.isArray(result)) return Number(result[0].id);
+    else return false;
+  } catch (error) {
+    return false;
+  }
+};
+
+// getSelectLastId();
+
 module.exports = {
   getSelectAllRecipes,
   getSelectRecipesById,
+  getSelectLastId,
 };
