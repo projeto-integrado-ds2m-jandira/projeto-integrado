@@ -42,6 +42,17 @@ app.get("/queridofogao/v1/usuarios", cors(), async function (request, response) 
   response.json(usuario);
 });
 
+//Retorna o usuario filtrando pelo ID
+app.get("/queridofogao/v1/usuarios/:id", cors(), async function (request, response) {
+  //Recebe o ID encaminhado via parametro na requisição
+  let idUsuario = request.params.id;
+
+  //Chama a função para listar os usuarios do BD
+  let usuario = await controllerUsuario.buscarUsuarioId(idUsuario);
+
+  response.status(usuario.status_code);
+  response.json(usuario);
+});
 /////////////////////////////////////////
 
 // Start da API
