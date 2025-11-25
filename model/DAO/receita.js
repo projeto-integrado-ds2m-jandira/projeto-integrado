@@ -103,7 +103,8 @@ const setInsertRecipes = async (receita) => {
   try {
     let sql = `INSERT INTO tb_receitas (
                         titulo,
-						tempo_preparo,
+                        descricao,
+						            tempo_preparo,
                         passos_preparo,
                         calorias,
                         avaliacao,
@@ -113,8 +114,10 @@ const setInsertRecipes = async (receita) => {
                         id_dificuldade,
                         id_tipo_cozinha,
                         id_status)
-					values( '${receita.titulo}',
-							'${receita.tempo_preparo}',
+					      values( 
+                            '${receita.titulo}',
+                            '${receita.descricao}',
+							              '${receita.tempo_preparo}',
                             '${receita.passos_preparo}',
                             '${receita.calorias}',
                             '${receita.avaliacao}',
@@ -139,6 +142,7 @@ const setInsertRecipes = async (receita) => {
 
 // let novaReceita = {
 //   titulo: "Bolo de Cenoura",
+//   descricao: "",
 //   tempo_preparo: "01:00:00",
 //   passos_preparo: "Misture tudo e leve ao forno",
 //   calorias: 250,
@@ -157,7 +161,8 @@ const setUpdateRecipes = async (receita) => {
   try {
     let sql = `UPDATE tb_receitas SET
                         titulo = '${receita.titulo}',
-						tempo_preparo = '${receita.tempo_preparo}',
+                        descricao = '${receita.descricao}',
+						            tempo_preparo = '${receita.tempo_preparo}',
                         passos_preparo = '${receita.passos_preparo}',
                         calorias = '${receita.calorias}',
                         avaliacao = '${receita.avaliacao}',
@@ -183,6 +188,7 @@ const setUpdateRecipes = async (receita) => {
 // let updateReceita = {
 //   id: 4,
 //   titulo: "Bolo de Cenoura Cremoso",
+//   descricao: "Bolo de cenoura com cobertura de chocolate",
 //   tempo_preparo: "01:25:00",
 //   passos_preparo: "Misture tudo e leve ao forno. Sirva gelado.",
 //   calorias: 350,
