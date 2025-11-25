@@ -1,5 +1,7 @@
 CREATE DATABASE db_projeto_integrado_receitas_ds2m_25_2;
 
+-- DROP DATABASE db_projeto_integrado_receitas_ds2m_25_2;
+
 USE db_projeto_integrado_receitas_ds2m_25_2;
 
 CREATE TABLE tb_status (
@@ -87,7 +89,7 @@ references tb_status(id)				# De onde vem a FK
 CREATE TABLE tb_receitas(
 id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
 titulo VARCHAR(100) NOT NULL,
-descricao VARCHAR(1000) NOT NULL,
+descricao VARCHAR(1000) DEFAULT('') NOT NULL,
 tempo_preparo TIME NOT NULL,
 passos_preparo TEXT NOT NULL,
 calorias INT NULL,
