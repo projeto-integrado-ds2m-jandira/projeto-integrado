@@ -82,10 +82,11 @@ const buscarUsuarioId = async (id) => {
 // buscarUsuarioId(3);
 
 const novoUsuario = {
+  id: 7,
   nome: "Rebeca",
   genero: "Feminino",
   email: "rebeca@email.com",
-  senha: "senha456",
+  senha: "123456",
   administrador: 1,
   contentType: "application/json",
 };
@@ -135,10 +136,54 @@ const inserirUsuario = async (usuario, contentType) => {
   }
 };
 
-inserirUsuario(novoUsuario, novoUsuario.contentType);
+// inserirUsuario(novoUsuario, novoUsuario.contentType);
+
+//atualiza  um usuario buscando pelo id
+
+const atualizarUsuario = async (usuario, contentType) => {
+  //criando um objeto novo para as mensagens
+  let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES));
+
+  try {
+    //validação do tipo de conteudo da requisição (obrigatorio ser um json)
+    if (String(contentType).toUpperCase() == "APPLICATION/JSON") {
+      //validação de ID válido, chama a função da controller que verifica no DB se o ID existe e valida o ID
+      let validarID = await buscarUsuarioId(usuario.id);
+
+      if (validarID.status_code == 200) {
+        //chama a função para inserir um novo usuario no DB
+        let resultUsuarios = await usuarioDAO.setUpdateUser(usuario);
+
+        if (resultUsuarios) {
+          MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status;
+          MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_UPDATED_ITEM.status_code;
+          MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_UPDATED_ITEM.message;
+          MESSAGES.DEFAULT_HEADER.items.usuario = usuario;
+          console.log(MESSAGES.DEFAULT_HEADER);
+          return MESSAGES.DEFAULT_HEADER; //200
+        } else {
+          console.log(MESSAGES.ERROR_INTERNAL_SERVER_MODEL);
+          return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
+        }
+      } else {
+        console.log(validarID);
+        return validarID; //Poderá retornar -> 400, 404 ou 500
+      }
+    } else {
+      console.log(MESSAGES.ERROR_CONTENT_TYPE);
+      return MESSAGES.ERROR_CONTENT_TYPE; //415
+    }
+  } catch (error) {
+    console.log(MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER);
+    return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER; //500
+  }
+};
+
+// atualizarUsuario(novoUsuario, novoUsuario.contentType);
 
 module.exports = {
   listarUsuarios,
   buscarUsuarioId,
   inserirUsuario,
+  atualizarUsuario,
 };
