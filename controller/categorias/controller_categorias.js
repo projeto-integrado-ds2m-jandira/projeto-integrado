@@ -13,13 +13,13 @@ const categoriaDAO = require("../../model/DAO/categorias.js");
 //import do arquivo de mensagens
 const DEFAULT_MESSAGES = require("../messages/config_messages.js");
 
-// Retorna uma lista de todos os usuários do banco de dados
+// Retorna uma lista de todas categorias do banco de dados
 const listarCategorias = async () => {
   //criando um objeto novo para as mensagens
   let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES));
 
   try {
-    //chama a função do DAO para retornar a lista de usuários do DB
+    //chama a função do DAO para retornar a lista de categorias do DB
     let resultCategorias = await categoriaDAO.getSelectAllCategories();
 
     if (resultCategorias) {
@@ -27,23 +27,18 @@ const listarCategorias = async () => {
         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status;
         MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code;
         MESSAGES.DEFAULT_HEADER.items.categorias = resultCategorias;
-        console.log(MESSAGES.DEFAULT_HEADER);
+
         return MESSAGES.DEFAULT_HEADER; //200
       } else {
-        console.log(MESSAGES.ERROR_NOT_FOUND);
         return MESSAGES.ERROR_NOT_FOUND; //404
       }
     } else {
-      console.log(MESSAGES.ERROR_INTERNAL_SERVER_MODEL);
       return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
     }
   } catch (error) {
-    console.log(MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER);
     return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER; //500
   }
 };
-
-// listarCategorias();
 
 // Retorna uma categoria filtrando pelo ID
 const buscarCategoriaId = async (id) => {
@@ -61,32 +56,21 @@ const buscarCategoriaId = async (id) => {
           MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code;
           MESSAGES.DEFAULT_HEADER.items.categorias = resultCategorias;
 
-          console.log(MESSAGES.DEFAULT_HEADER);
           return MESSAGES.DEFAULT_HEADER;
         } else {
-          console.log(MESSAGES.ERROR_NOT_FOUND);
           return MESSAGES.ERROR_NOT_FOUND; //404
         }
       } else {
-        console.log(MESSAGES.ERROR_INTERNAL_SERVER_MODEL);
         return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
       }
     } else {
       MESSAGES.ERROR_REQUIRED_FIELDS.message += "[ID incorreto]";
-      console.log(MESSAGES.ERROR_REQUIRED_FIELDS);
+
       return MESSAGES.ERROR_REQUIRED_FIELDS; //400
     }
   } catch (error) {
-    console.log(MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER);
     return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER; //500
   }
-};
-
-// buscarCategoriaId(3);
-
-const novaCategoria = {
-  nome: "Infantil",
-  contentType: "application/json",
 };
 
 //insere uma categoria
@@ -106,38 +90,105 @@ const inserirCategoria = async (categoria, contentType) => {
         let lastID = await categoriaDAO.getSelectLastId();
 
         if (lastID) {
-          //adiciona o ID no JSON com os dados do usuário
+          //adiciona o ID no JSON com os dados da categoria
           categoria.id = lastID;
           MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status;
           MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code;
           MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message;
 
           MESSAGES.DEFAULT_HEADER.items = categoria;
-          console.log(MESSAGES.DEFAULT_HEADER);
 
           return MESSAGES.DEFAULT_HEADER; //201
         } else {
-          console.log(MESSAGES.ERROR_INTERNAL_SERVER_MODEL);
           return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
         }
       } else {
-        console.log(MESSAGES.ERROR_INTERNAL_SERVER_MODEL);
         return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
       }
     } else {
-      console.log(MESSAGES.ERROR_CONTENT_TYPE);
       return MESSAGES.ERROR_CONTENT_TYPE; //415
     }
   } catch (error) {
-    console.log(MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER);
     return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER; //500
   }
 };
 
-inserirCategoria(novaCategoria, novaCategoria.contentType);
+//atualiza uma categoria buscando pelo id
+const atualizarCategoria = async (categoria, contentType) => {
+  //criando um objeto novo para as mensagens
+  let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES));
+
+  try {
+    //validação do tipo de conteudo da requisição (obrigatorio ser um json)
+    if (String(contentType).toUpperCase() == "APPLICATION/JSON") {
+      //validação de ID válido, chama a função da controller que verifica no DB se o ID existe e valida o ID
+      let validarID = await buscarCategoriaId(categoria.id);
+
+      if (validarID.status_code == 200) {
+        //chama a função para inserir uma nova categoria no DB
+        let resultCategorias = await categoriaDAO.setUpdateCategory(categoria);
+
+        if (resultCategorias) {
+          MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status;
+          MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_UPDATED_ITEM.status_code;
+          MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_UPDATED_ITEM.message;
+          MESSAGES.DEFAULT_HEADER.items.categoria = categoria;
+
+          return MESSAGES.DEFAULT_HEADER; //200
+        } else {
+          return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
+        }
+      } else {
+        validarID; //Poderá retornar -> 400, 404 ou 500
+      }
+    } else {
+      return MESSAGES.ERROR_CONTENT_TYPE; //415
+    }
+  } catch (error) {
+    return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER; //500
+  }
+};
+
+//exclui uma categoria buscando pelo id
+const excluirCategoria = async (id) => {
+  //Criando um objeto novo para as mensagens
+  let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES));
+
+  try {
+    //Validação da chegada do ID
+    if (!isNaN(id) && id != "" && id != null && id > 0) {
+      //Validação de ID válido, chama a função da controller que verifica no BD se o ID existe e valida o ID
+      let validarID = await buscarCategoriaId(id);
+
+      if (validarID.status_code == 200) {
+        let resultCategorias = await categoriaDAO.setDeleteCategory(Number(id));
+
+        if (resultCategorias) {
+          MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETED_ITEM.status;
+          MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_DELETED_ITEM.status_code;
+          MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_DELETED_ITEM.message;
+          MESSAGES.DEFAULT_HEADER.items.categoria = resultCategorias;
+          delete MESSAGES.DEFAULT_HEADER.items;
+          return MESSAGES.DEFAULT_HEADER; //200
+        } else {
+          return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
+        }
+      } else {
+        return MESSAGES.ERROR_NOT_FOUND; //404
+      }
+    } else {
+      MESSAGES.ERROR_REQUIRED_FIELDS.message += " [ID incorreto]";
+      return MESSAGES.ERROR_REQUIRED_FIELDS; //400
+    }
+  } catch (error) {
+    return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER; //500
+  }
+};
 
 module.exports = {
   listarCategorias,
   buscarCategoriaId,
   inserirCategoria,
+  atualizarCategoria,
+  excluirCategoria,
 };

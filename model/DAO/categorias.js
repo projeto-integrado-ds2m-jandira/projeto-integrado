@@ -109,12 +109,12 @@ const setInsertCategory = async (categoria) => {
 
     //executeRawUnsafe() -> executa o script SQL que não tem retorno de valores
     let result = await prisma.$executeRawUnsafe(sql);
-    console.log(result);
+    // console.log(result);
 
     if (result) return true;
     else return false;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return false;
   }
 };
@@ -135,12 +135,12 @@ const setUpdateCategory = async (categoria) => {
 
     //executeRawUnsafe() -> executa o script SQL que não tem retorno de valores
     let result = await prisma.$executeRawUnsafe(sql);
-    console.log(result);
+    // console.log(result);
 
     if (result) return true;
     else return false;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return false;
   }
 };
