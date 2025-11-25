@@ -153,18 +153,11 @@ const setUpdateUnit = async (unidade) => {
   }
 };
 
-// let updateCuisine = {
-//   id: 4,
-//   nome: "Japonesa",
-// };
-
-// setUpdateCuisine(updateCuisine);
-
 // Exclui um tipo de cozinha pelo ID no banco de dados
-const setDeleteCuisine = async (id) => {
+const setDeleteUnit = async (id) => {
   try {
     //Script SQL
-    let sql = `UPDATE tb_tipo_cozinha SET
+    let sql = `UPDATE tb_unidades_medidas SET
                     id_status = 2
                         
                     WHERE id = ${id}`;
@@ -181,13 +174,11 @@ const setDeleteCuisine = async (id) => {
   }
 };
 
-// setDeleteCuisine(4);
-
 module.exports = {
   getSelectAllUnits,
   getSelectUnitById,
   getSelectLastId,
   setInsertUnit,
   setUpdateUnit,
-  // setDeleteUnit,
+  setDeleteUnit,
 };
