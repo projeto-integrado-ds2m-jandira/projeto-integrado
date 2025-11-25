@@ -181,9 +181,48 @@ const atualizarUsuario = async (usuario, contentType) => {
 
 // atualizarUsuario(novoUsuario, novoUsuario.contentType);
 
+//exclui um usuario buscando pelo id
+const excluirUsuario = async (id) => {
+  //Criando um objeto novo para as mensagens
+  let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES));
+
+  try {
+    //Validação da chegada do ID
+    if (!isNaN(id) && id != "" && id != null && id > 0) {
+      //Validação de ID válido, chama a função da controller que verifica no BD se o ID existe e valida o ID
+      let validarID = await buscarUsuarioId(id);
+
+      if (validarID.status_code == 200) {
+        let resultUsuarios = await usuarioDAO.setDeleteUser(Number(id));
+
+        if (resultUsuarios) {
+          MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETED_ITEM.status;
+          MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_DELETED_ITEM.status_code;
+          MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_DELETED_ITEM.message;
+          MESSAGES.DEFAULT_HEADER.items.usuario = resultUsuarios;
+          delete MESSAGES.DEFAULT_HEADER.items;
+          return MESSAGES.DEFAULT_HEADER; //200
+        } else {
+          return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
+        }
+      } else {
+        return MESSAGES.ERROR_NOT_FOUND; //404
+      }
+    } else {
+      MESSAGES.ERROR_REQUIRED_FIELDS.message += " [ID incorreto]";
+      return MESSAGES.ERROR_REQUIRED_FIELDS; //400
+    }
+  } catch (error) {
+    return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER; //500
+  }
+};
+
+// excluirUsuario(6);
+
 module.exports = {
   listarUsuarios,
   buscarUsuarioId,
   inserirUsuario,
   atualizarUsuario,
+  excluirUsuario,
 };
