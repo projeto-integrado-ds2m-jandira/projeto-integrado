@@ -50,7 +50,7 @@ const getSelectAllUsers = async () => {
 
     //encaminha para o BD o script SQL
     let result = await prisma.$queryRawUnsafe(sql);
-    console.log(result);
+    // console.log(result);
 
     if (Array.isArray(result)) return result;
     else return false;
