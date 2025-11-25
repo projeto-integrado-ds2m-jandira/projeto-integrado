@@ -40,9 +40,7 @@ const listarUsuarios = async () => {
   }
 };
 
-// listarUsuarios();
-
-//retorna um usuario filtrando pelo ID
+// retorna um usuario filtrando pelo ID
 const buscarUsuarioId = async (id) => {
   //criando um objeto novo para as mensagens
   let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES));
@@ -58,37 +56,20 @@ const buscarUsuarioId = async (id) => {
           MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code;
           MESSAGES.DEFAULT_HEADER.items.usuarios = resultUsuarios;
 
-          console.log(MESSAGES.DEFAULT_HEADER);
           return MESSAGES.DEFAULT_HEADER;
         } else {
-          console.log(MESSAGES.ERROR_NOT_FOUND);
           return MESSAGES.ERROR_NOT_FOUND; //404
         }
       } else {
-        console.log(MESSAGES.ERROR_INTERNAL_SERVER_MODEL);
         return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
       }
     } else {
       MESSAGES.ERROR_REQUIRED_FIELDS.message += "[ID incorreto]";
-      console.log(MESSAGES.ERROR_REQUIRED_FIELDS);
       return MESSAGES.ERROR_REQUIRED_FIELDS; //400
     }
   } catch (error) {
-    console.log(MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER);
     return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER; //500
   }
-};
-
-// buscarUsuarioId(3);
-
-const novoUsuario = {
-  id: 7,
-  nome: "Rebeca",
-  genero: "Feminino",
-  email: "rebeca@email.com",
-  senha: "123456",
-  administrador: 1,
-  contentType: "application/json",
 };
 
 //insere um usuário
@@ -115,32 +96,25 @@ const inserirUsuario = async (usuario, contentType) => {
           MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message;
 
           MESSAGES.DEFAULT_HEADER.items = usuario;
-          console.log(MESSAGES.DEFAULT_HEADER);
 
           return MESSAGES.DEFAULT_HEADER; //201
         } else {
-          console.log(MESSAGES.ERROR_INTERNAL_SERVER_MODEL);
           return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
         }
       } else {
-        console.log(MESSAGES.ERROR_INTERNAL_SERVER_MODEL);
         return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
       }
     } else {
-      console.log(MESSAGES.ERROR_CONTENT_TYPE);
       return MESSAGES.ERROR_CONTENT_TYPE; //415
     }
   } catch (error) {
-    console.log(MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER);
     return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER; //500
   }
 };
 
-// inserirUsuario(novoUsuario, novoUsuario.contentType);
+//atualiza um usuario buscando pelo id
 
-//atualiza  um usuario buscando pelo id
-
-const atualizarUsuario = async (usuario, contentType) => {
+const atualizarUsuario = async (usuario, id, contentType) => {
   //criando um objeto novo para as mensagens
   let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES));
 
@@ -148,38 +122,31 @@ const atualizarUsuario = async (usuario, contentType) => {
     //validação do tipo de conteudo da requisição (obrigatorio ser um json)
     if (String(contentType).toUpperCase() == "APPLICATION/JSON") {
       //validação de ID válido, chama a função da controller que verifica no DB se o ID existe e valida o ID
-      let validarID = await buscarUsuarioId(usuario.id);
+      let validarID = await buscarUsuarioId(id);
 
       if (validarID.status_code == 200) {
         //chama a função para inserir um novo usuario no DB
-        let resultUsuarios = await usuarioDAO.setUpdateUser(usuario);
+        let resultUsuarios = await usuarioDAO.setUpdateUser(usuario, id);
 
         if (resultUsuarios) {
           MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status;
           MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_UPDATED_ITEM.status_code;
           MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_UPDATED_ITEM.message;
           MESSAGES.DEFAULT_HEADER.items.usuario = usuario;
-          console.log(MESSAGES.DEFAULT_HEADER);
           return MESSAGES.DEFAULT_HEADER; //200
         } else {
-          console.log(MESSAGES.ERROR_INTERNAL_SERVER_MODEL);
           return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
         }
       } else {
-        console.log(validarID);
         return validarID; //Poderá retornar -> 400, 404 ou 500
       }
     } else {
-      console.log(MESSAGES.ERROR_CONTENT_TYPE);
       return MESSAGES.ERROR_CONTENT_TYPE; //415
     }
   } catch (error) {
-    console.log(MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER);
     return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER; //500
   }
 };
-
-// atualizarUsuario(novoUsuario, novoUsuario.contentType);
 
 //exclui um usuario buscando pelo id
 const excluirUsuario = async (id) => {
@@ -216,8 +183,6 @@ const excluirUsuario = async (id) => {
     return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER; //500
   }
 };
-
-// excluirUsuario(6);
 
 module.exports = {
   listarUsuarios,

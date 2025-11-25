@@ -53,6 +53,25 @@ app.get("/queridofogao/v1/usuarios/:id", cors(), async function (request, respon
   response.status(usuario.status_code);
   response.json(usuario);
 });
+
+//Atualiza um usuario existente
+app.put("/queridofogao/v1/usuarios/:id", cors(), bodyParserJSON, async function (request, response) {
+  //Recebe o ID do usuario
+  let idUsuario = request.params.id;
+
+  //Recebe os dados a serem atualizados
+  let dadosBody = request.body;
+
+  //Recebe o content-type da requisição
+  let contentType = request.headers["content-type"];
+
+  //chama a função para atualizar o usuario e encaminha os dados, o id e o content-type
+  let usuario = await controllerUsuario.atualizarUsuario(dadosBody, idUsuario, contentType);
+
+  response.status(usuario.status_code);
+  response.json(usuario);
+});
+
 /////////////////////////////////////////
 
 // Start da API

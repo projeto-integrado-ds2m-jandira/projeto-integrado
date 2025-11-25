@@ -50,12 +50,10 @@ const getSelectAllUsers = async () => {
 
     //encaminha para o BD o script SQL
     let result = await prisma.$queryRawUnsafe(sql);
-    // console.log(result);
 
     if (Array.isArray(result)) return result;
     else return false;
   } catch (error) {
-    //console.log(error)
     return false;
   }
 };
@@ -67,12 +65,10 @@ const getSelectUserById = async (id) => {
     let sql = `select * from tb_usuarios where id=${id}`;
     //encaminha para o BD o script SQL
     let result = await prisma.$queryRawUnsafe(sql);
-    // console.log(result);
 
     if (Array.isArray(result)) return result;
     else return false;
   } catch (error) {
-    //console.log(error)
     return false;
   }
 };
@@ -84,7 +80,6 @@ const getSelectLastId = async () => {
     let sql = `select id from tb_usuarios order by id desc limit 1;`;
     //encaminha para o DB o script SQL
     let result = await prisma.$queryRawUnsafe(sql);
-    // console.log(result);
 
     if (Array.isArray(result)) return Number(result[0].id);
     else return false;
@@ -92,8 +87,6 @@ const getSelectLastId = async () => {
     return false;
   }
 };
-
-// getSelectLastId();
 
 //insere um novo usuário no banco de dados.
 
@@ -105,30 +98,26 @@ const setInsertUser = async (usuario) => {
                         genero,
 						            email,
                         senha,
-                        administrador,
                         data_criacao)
 					      values( 
                            '${usuario.nome}',
 							              '${usuario.genero}',
                             '${usuario.email}',
                             '${usuario.senha}',
-                            '${usuario.administrador}',
-                              curdate())`;
+                             curdate())`;
 
     //executeRawUnsafe() -> executa o script SQL que não tem retorno de valores
     let result = await prisma.$executeRawUnsafe(sql);
-    console.log(result);
 
     if (result) return true;
     else return false;
   } catch (error) {
-    console.log(error);
     return false;
   }
 };
 
-// Altera uma receita pelo ID no banco de dados
-const setUpdateUser = async (usuario) => {
+// Altera um usuario pelo ID no banco de dados
+const setUpdateUser = async (usuario, id) => {
   try {
     let sql = `UPDATE tb_usuarios SET
                         nome = '${usuario.nome}',
@@ -137,7 +126,7 @@ const setUpdateUser = async (usuario) => {
                         senha = '${usuario.senha}',
                         administrador = '${usuario.administrador}'
                         
-                    WHERE id = ${usuario.id}`;
+                    WHERE id = ${id}`;
 
     //executeRawUnsafe() -> executa o script SQL que não tem retorno de valores
     let result = await prisma.$executeRawUnsafe(sql);
@@ -161,16 +150,12 @@ const setDeleteUser = async (id) => {
     //Encaminha para o BD o script SQL
     let result = await prisma.$queryRawUnsafe(sql);
 
-    //console.log(Array.isArray(result))
     if (Array.isArray(result)) return result;
     else return false;
   } catch (error) {
-    //console.log(error)
     return false;
   }
 };
-
-// setDeleteUser(6);
 
 module.exports = {
   getSelectAllUsers,
