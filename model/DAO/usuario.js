@@ -60,8 +60,6 @@ const getSelectAllUsers = async () => {
   }
 };
 
-// getSelectAllUsers();
-
 // Retorna um usuario pelo ID do banco de dados
 const getSelectUserById = async (id) => {
   try {
@@ -107,12 +105,14 @@ const setInsertUser = async (usuario) => {
                         genero,
 						            email,
                         senha,
+                        administrador,
                         data_criacao)
 					      values( 
                            '${usuario.nome}',
 							              '${usuario.genero}',
                             '${usuario.email}',
                             '${usuario.senha}',
+                            '${usuario.administrador}',
                               curdate())`;
 
     //executeRawUnsafe() -> executa o script SQL que não tem retorno de valores
@@ -127,15 +127,6 @@ const setInsertUser = async (usuario) => {
   }
 };
 
-// let newUser = {
-//   nome: "Roberto Santos",
-//   genero: "Masculino",
-//   email: "roberto.santos@example.com",
-//   senha: "senha123",
-// };
-
-// setInsertUser(newUser);
-
 // Altera uma receita pelo ID no banco de dados
 const setUpdateUser = async (usuario) => {
   try {
@@ -143,8 +134,8 @@ const setUpdateUser = async (usuario) => {
                         nome = '${usuario.nome}',
                         genero = '${usuario.genero}',
                         email = '${usuario.email}',
-                        senha = '${usuario.senha}'
-                       
+                        senha = '${usuario.senha}',
+                        administrador = '${usuario.administrador}'
                         
                     WHERE id = ${usuario.id}`;
 
@@ -159,16 +150,6 @@ const setUpdateUser = async (usuario) => {
     return false;
   }
 };
-
-// let updateUsuario = {
-//   id: 7,
-//   nome: "Marcelo Dias",
-//   genero: "Masculino",
-//   email: "marcelo.dias@example.com",
-//   senha: "senha1234",
-// };
-
-// setUpdateUser(updateUsuario);
 
 // Exclui um usuário pelo ID no banco de dados
 const setDeleteUser = async (id) => {

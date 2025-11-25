@@ -13,6 +13,7 @@ CREATE TABLE tb_usuarios (
     genero VARCHAR(20) NOT NULL DEFAULT('Não Informado'),
     email VARCHAR(100) NOT NULL,
     senha VARCHAR(50) NOT NULL,
+    administrador BOOLEAN DEFAULT (FALSE) NOT NULL,
     data_criacao DATE NOT NULL,
     id_status INT DEFAULT(1) NOT NULL,
 
