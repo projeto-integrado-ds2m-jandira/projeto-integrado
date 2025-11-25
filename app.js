@@ -31,9 +31,9 @@ app.use((request, response, next) => {
 //Import das controllers
 const controllerUsuario = require("./controller/usuario/controller_usuario.js");
 
-//EndPoints para a rota de Usuário
+///////////////////  EndPoints para a rota de Usuário ////////////////////////////
 
-//Retorna a lista de todos os usuários
+// Retorna a lista de todos os usuários
 app.get("/queridofogao/v1/usuarios", cors(), async function (request, response) {
   //Chama a função para listar os usuários do BD
   let usuario = await controllerUsuario.listarUsuarios();
