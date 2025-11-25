@@ -50,17 +50,13 @@ const getSelectAllCategories = async () => {
 
     //encaminha para o BD o script SQL
     let result = await prisma.$queryRawUnsafe(sql);
-    // console.log(result);
 
     if (Array.isArray(result)) return result;
     else return false;
   } catch (error) {
-    //console.log(error)
     return false;
   }
 };
-
-// getSelectAllCategories();
 
 // Retorna uma categoria pelo ID do banco de dados
 const getSelectCategoryById = async (id) => {
@@ -69,26 +65,21 @@ const getSelectCategoryById = async (id) => {
     let sql = `select * from tb_categorias where id=${id}`;
     //encaminha para o BD o script SQL
     let result = await prisma.$queryRawUnsafe(sql);
-    // console.log(result);
 
     if (Array.isArray(result)) return result;
     else return false;
   } catch (error) {
-    //console.log(error)
     return false;
   }
 };
 
-// getSelectCategoryById(2);
-
-// Retorna o último ID gerado no DB. Sera utilizado para aparecer quando um usuario for adicionado
+// Retorna o último ID gerado no DB. Sera utilizado para aparecer quando uma categoria for adicionada
 const getSelectLastId = async () => {
   try {
     //script sql para retornar apenas o ultimo ID do DB
     let sql = `select id from tb_categorias order by id desc limit 1;`;
     //encaminha para o DB o script SQL
     let result = await prisma.$queryRawUnsafe(sql);
-    // console.log(result);
 
     if (Array.isArray(result)) return Number(result[0].id);
     else return false;
@@ -96,8 +87,6 @@ const getSelectLastId = async () => {
     return false;
   }
 };
-
-// getSelectLastId();
 
 //insere uma nova categoria no banco de dados.
 const setInsertCategory = async (categoria) => {
@@ -109,21 +98,13 @@ const setInsertCategory = async (categoria) => {
 
     //executeRawUnsafe() -> executa o script SQL que não tem retorno de valores
     let result = await prisma.$executeRawUnsafe(sql);
-    // console.log(result);
 
     if (result) return true;
     else return false;
   } catch (error) {
-    // console.log(error);
     return false;
   }
 };
-
-// let newCategory = {
-//   nome: "Salgado",
-// };
-
-// setInsertCategory(newCategory);
 
 // Altera uma categoria pelo ID no banco de dados
 const setUpdateCategory = async (categoria) => {
@@ -135,22 +116,13 @@ const setUpdateCategory = async (categoria) => {
 
     //executeRawUnsafe() -> executa o script SQL que não tem retorno de valores
     let result = await prisma.$executeRawUnsafe(sql);
-    // console.log(result);
 
     if (result) return true;
     else return false;
   } catch (error) {
-    // console.log(error);
     return false;
   }
 };
-
-// let updateCategoria = {
-//   id: 5,
-//   nome: "Salgados",
-// };
-
-// setUpdateCategory(updateCategoria);
 
 // Exclui uma categoria pelo ID no banco de dados
 const setDeleteCategory = async (id) => {
@@ -164,16 +136,12 @@ const setDeleteCategory = async (id) => {
     //Encaminha para o BD o script SQL
     let result = await prisma.$queryRawUnsafe(sql);
 
-    //console.log(Array.isArray(result))
     if (Array.isArray(result)) return result;
     else return false;
   } catch (error) {
-    //console.log(error)
     return false;
   }
 };
-
-// setDeleteCategory(5);
 
 module.exports = {
   getSelectAllCategories,
