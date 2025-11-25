@@ -1,3 +1,5 @@
+USE db_projeto_integrado_receitas_ds2m_25_2;
+
 INSERT INTO tb_status (situacao) VALUES
 ('Ativo'),
 ('Inativo');
@@ -84,14 +86,3 @@ INSERT INTO tb_receitas_ingredientes (id_receita, id_ingrediente, id_unidade, qu
 (3, 11, 5, 1), -- Leite Condensado (1 un)
 (3, 9, 3, 4),  -- Chocolate em Pó (4 CS)
 (3, 10, 3, 1); -- Manteiga (1 CS)
-
-select * from tb_status;
-select * from tb_receitas;
-select * from tb_usuarios;
-select * from tb_categorias;
-select * from tb_dificuldades;
-select * from tb_receitas_categorias;
-select * from tb_receitas_ingredientes;
-select * from tb_tipo_cozinha;
-select * from tb_unidades_medidas;
-select * from tb_ingredientes;
