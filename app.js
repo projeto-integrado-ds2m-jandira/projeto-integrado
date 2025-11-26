@@ -99,6 +99,8 @@ app.delete("/queridofogao/v1/usuarios/:id", cors(), async function (request, res
   response.json(usuario);
 });
 
+// fazer os endpoints de categorias
+
 /////////////////////////////////////////
 
 // Start da API
