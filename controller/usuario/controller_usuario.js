@@ -95,8 +95,25 @@ const inserirUsuario = async (usuario, contentType) => {
           MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code;
           MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message;
 
-          MESSAGES.DEFAULT_HEADER.items = usuario;
+          // MESSAGES.DEFAULT_HEADER.items = usuario;
+          // criar variável para receber os dados parciais do usuário
 
+          let getUser = await buscarUsuarioId(usuario.id);
+
+          let userData = {
+            id: getUser.items.usuarios[0].id,
+            nome: getUser.items.usuarios[0].nome,
+            genero: getUser.items.usuarios[0].genero,
+            email: getUser.items.usuarios[0].email,
+            senha: getUser.items.usuarios[0].senha,
+            url_imagem: getUser.items.usuarios[0].url_imagem,
+            administrador: getUser.items.usuarios[0].administrador,
+            id_status: getUser.items.usuarios[0].id_status,
+            data_criacao: getUser.items.usuarios[0].data_criacao,
+          };
+
+          delete MESSAGES.DEFAULT_HEADER.items;
+          MESSAGES.DEFAULT_HEADER.usuario = userData;
           return MESSAGES.DEFAULT_HEADER; //201
         } else {
           return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500

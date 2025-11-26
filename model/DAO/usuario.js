@@ -62,7 +62,10 @@ const getSelectAllUsers = async () => {
 const getSelectUserById = async (id) => {
   try {
     //script SQL
-    let sql = `select * from tb_usuarios where id=${id}`;
+    let sql = `select id, nome, genero, email, senha, administrador, url_imagem, id_status, 
+                  date_format(data_criacao, '%d/%m/%Y') as data_criacao 
+              from tb_usuarios 
+              where id=${id}`;
     //encaminha para o BD o script SQL
     let result = await prisma.$queryRawUnsafe(sql);
 

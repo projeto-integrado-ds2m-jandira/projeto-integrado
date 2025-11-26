@@ -1,8 +1,8 @@
 /******************************************************************************
  * Objetivo: Arquivo responsável pelas requisições da API do site de receitas
- * Data: 25/11/2025
- * Autor: Tiago
- * Versão: 1.0
+ * Data Inicio: 25/11/2025
+ * Versão: 0.1 - CRUD de usuários - Release: 26/11/2025 - Autor: Tiago Guimarães
+ * Versão: 0.2 - CRUD de receitas
  *****************************************************************************/
 
 //Import das bibliotecas para criar a API
@@ -54,6 +54,21 @@ app.get("/queridofogao/v1/usuarios/:id", cors(), async function (request, respon
   response.json(usuario);
 });
 
+//Insere um novo usuario
+app.post("/queridofogao/v1/usuarios", cors(), bodyParserJSON, async function (request, response) {
+  //Recebe os dados do body da requisição (Se você utilizar o bodyParser, é obrigatório ter no endPoint)
+  let dadosBody = request.body;
+
+  //Recebe o tipo de dados da requisição (JSON ou XML ou ....)
+  let contentType = request.headers["content-type"];
+
+  //Chama a função da controller para inserir o novo usuario, encaminha os dados e o content-type
+  let usuario = await controllerUsuario.inserirUsuario(dadosBody, contentType);
+
+  response.status(usuario.status_code);
+  response.json(usuario);
+});
+
 //Atualiza um usuario existente
 app.put("/queridofogao/v1/usuarios/:id", cors(), bodyParserJSON, async function (request, response) {
   //Recebe o ID do usuario
@@ -68,6 +83,18 @@ app.put("/queridofogao/v1/usuarios/:id", cors(), bodyParserJSON, async function 
   //chama a função para atualizar o usuario e encaminha os dados, o id e o content-type
   let usuario = await controllerUsuario.atualizarUsuario(dadosBody, idUsuario, contentType);
 
+  response.status(usuario.status_code);
+  response.json(usuario);
+});
+
+// Deleta o usuario filtrando pelo ID
+app.delete("/queridofogao/v1/usuarios/:id", cors(), async function (request, response) {
+  //Recebe o ID encaminhado via parametro na requisição
+  let idUsuario = request.params.id;
+
+  //Chama a função para listar os usuarios do BD
+  let usuario = await controllerUsuario.excluirUsuario(idUsuario);
+  //console.log(usuario)
   response.status(usuario.status_code);
   response.json(usuario);
 });
