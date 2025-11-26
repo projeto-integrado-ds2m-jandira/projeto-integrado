@@ -1,3 +1,5 @@
+USE db_projeto_integrado_receitas_ds2m_25_2;
+
 INSERT INTO tb_status (situacao) VALUES
 ('Ativo'),
 ('Inativo');
@@ -39,12 +41,12 @@ INSERT INTO tb_categorias (nome) VALUES
 ('Vegana'),
 ('Lanche');
 
-INSERT INTO tb_usuarios (nome, genero, email, senha, data_criacao) VALUES
-('Ana Paula Silva', 'Feminino', 'ana.silva@email.com', 'senha123', '2024-01-15'), -- ID 1
-('Bruno Costa', 'Masculino', 'bruno.costa@email.com', 'bruno456', '2024-02-20'), -- ID 2
-('Carlos Eduardo', 'Masculino', 'carlos.edu@email.com', 'carlitos', '2023-11-10'), -- ID 3
-('Diana Mendes', 'Feminino', 'diana.mendes@email.com', 'diana789', '2024-03-01'), -- ID 4
-('Elias Ferreira', 'Não Informado', 'elias.ferreira@email.com', 'elias2024', '2024-04-05'); -- ID 5
+INSERT INTO tb_usuarios (nome, genero, email, senha, data_criacao, administrador) VALUES
+('Ana Paula Silva', 'Feminino', 'ana.silva@email.com', 'senha123', '2024-01-15',1), -- ID 1
+('Bruno Costa', 'Masculino', 'bruno.costa@email.com', 'bruno456', '2024-02-20', 0), -- ID 2
+('Carlos Eduardo', 'Masculino', 'carlos.edu@email.com', 'carlitos', '2023-11-10', 1), -- ID 3
+('Diana Mendes', 'Feminino', 'diana.mendes@email.com', 'diana789', '2024-03-01', 0), -- ID 4
+('Elias Ferreira', 'Não Informado', 'elias.ferreira@email.com', 'elias2024', '2024-04-05', 0); -- ID 5
 
 INSERT INTO tb_receitas (titulo, tempo_preparo, passos_preparo, calorias, avaliacao, likes, data_cadastro, id_usuario, id_dificuldade, id_tipo_cozinha) VALUES
 ('Lasanha à Bolonhesa Clássica', '00:45:00', 'Cozinhe a massa. Prepare o molho bolonhesa. Monte as camadas alternando massa, molho e queijo. Leve ao forno.', 500, 5, 120, '2024-05-10', 1, 2, 2);
@@ -84,14 +86,3 @@ INSERT INTO tb_receitas_ingredientes (id_receita, id_ingrediente, id_unidade, qu
 (3, 11, 5, 1), -- Leite Condensado (1 un)
 (3, 9, 3, 4),  -- Chocolate em Pó (4 CS)
 (3, 10, 3, 1); -- Manteiga (1 CS)
-
-select * from tb_status;
-select * from tb_receitas;
-select * from tb_usuarios;
-select * from tb_categorias;
-select * from tb_dificuldades;
-select * from tb_receitas_categorias;
-select * from tb_receitas_ingredientes;
-select * from tb_tipo_cozinha;
-select * from tb_unidades_medidas;
-select * from tb_ingredientes;

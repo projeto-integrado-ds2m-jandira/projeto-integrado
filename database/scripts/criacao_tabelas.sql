@@ -1,5 +1,7 @@
 CREATE DATABASE db_projeto_integrado_receitas_ds2m_25_2;
 
+-- DROP DATABASE db_projeto_integrado_receitas_ds2m_25_2;
+
 USE db_projeto_integrado_receitas_ds2m_25_2;
 
 CREATE TABLE tb_status (
@@ -13,6 +15,8 @@ CREATE TABLE tb_usuarios (
     genero VARCHAR(20) NOT NULL DEFAULT('Não Informado'),
     email VARCHAR(100) NOT NULL,
     senha VARCHAR(50) NOT NULL,
+    administrador BOOLEAN DEFAULT (FALSE) NOT NULL,
+    url_imagem VARCHAR(250) NULL,
     data_criacao DATE NOT NULL,
     id_status INT DEFAULT(1) NOT NULL,
 
@@ -86,12 +90,14 @@ references tb_status(id)				# De onde vem a FK
 CREATE TABLE tb_receitas(
 id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
 titulo VARCHAR(100) NOT NULL,
+descricao VARCHAR(1000) DEFAULT('') NOT NULL,
 tempo_preparo TIME NOT NULL,
 passos_preparo TEXT NOT NULL,
 calorias INT NULL,
 avaliacao INT NULL,
 likes INT NULL,
-data_cadastro DATE,
+url_imagem VARCHAR(250) NULL,
+data_cadastro DATE NOT NULL,
 id_usuario int not null,
 id_dificuldade int not null,
 id_tipo_cozinha int not null,
