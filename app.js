@@ -54,6 +54,21 @@ app.get("/queridofogao/v1/usuarios/:id", cors(), async function (request, respon
   response.json(usuario);
 });
 
+//Insere um novo usuario
+app.post("/queridofogao/v1/usuarios", cors(), bodyParserJSON, async function (request, response) {
+  //Recebe os dados do body da requisição (Se você utilizar o bodyParser, é obrigatório ter no endPoint)
+  let dadosBody = request.body;
+
+  //Recebe o tipo de dados da requisição (JSON ou XML ou ....)
+  let contentType = request.headers["content-type"];
+
+  //Chama a função da controller para inserir o novo usuario, encaminha os dados e o content-type
+  let usuario = await controllerUsuario.inserirUsuario(dadosBody, contentType);
+
+  response.status(usuario.status_code);
+  response.json(usuario);
+});
+
 //Atualiza um usuario existente
 app.put("/queridofogao/v1/usuarios/:id", cors(), bodyParserJSON, async function (request, response) {
   //Recebe o ID do usuario
