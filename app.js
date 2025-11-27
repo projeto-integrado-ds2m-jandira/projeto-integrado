@@ -31,6 +31,8 @@ app.use((request, response, next) => {
 //Import das controllers
 const controllerUsuario = require("./controller/usuario/controller_usuario.js");
 const controllerReceita = require("./controller/receitas/controller_receitas.js");
+const controllerCategoria = require("./controller/categorias/controller_categorias.js");
+
 
 ///////////////////  EndPoints para a rota de Usuário ////////////////////////////
 
@@ -100,8 +102,6 @@ app.delete("/queridofogao/v1/usuarios/:id", cors(), async function (request, res
   response.json(usuario);
 });
 
-// fazer os endpoints de categorias
-
 ///////////////////  EndPoints para a rota de Receitas ////////////////////////////
 
 // Retorna a lista de todas as receitas
@@ -169,6 +169,74 @@ app.delete("/queridofogao/v1/receitas/:id", cors(), async function (request, res
   response.status(receita.status_code);
   response.json(receita);
 });
+
+///////////////////  EndPoints para a rota de Categorias ////////////////////////////
+
+//retorna uma lista de todas as categorias
+app.get("/queridofogao/v1/categorias", cors(), async function (request, response) {
+
+  let categoria = await controllerCategoria.listarCategorias();
+
+  response.status(categoria.status_code);
+  response.json(categoria);
+});
+
+//retorna a categoria filtrando pelo id.
+app.get("/queridofogao/v1/categorias/:id", cors(), async function (request, response) {
+  //Recebe o ID encaminhado via parametro na requisição
+  let idCategoria = request.params.id;
+
+  //Chama a função para listar os usuarios do BD
+  let categoria = await controllerCategoria.buscarCategoriaId(idCategoria);
+
+  response.status(categoria.status_code);
+  response.json(categoria);
+});
+
+//Insere uma nova categoria
+app.post("/queridofogao/v1/categorias", cors(), bodyParserJSON, async function (request, response) {
+
+  let dadosBody = request.body;
+
+  let contentType = request.headers["content-type"];
+
+  //Chama a função da controller para inserir o novo usuario, encaminha os dados e o content-type
+  let categoria = await controllerCategoria.inserirCategoria(dadosBody, contentType);
+
+  response.status(categoria.status_code);
+  response.json(categoria);
+});
+
+//Atualiza uma categoria existente
+app.put("/queridofogao/v1/categorias/:id", cors(), bodyParserJSON, async function (request, response) {
+  //Recebe o ID do usuario
+  let idCategoria = request.params.id;
+
+  //Recebe os dados a serem atualizados
+  let dadosBody = request.body;
+
+  //Recebe o content-type da requisição
+  let contentType = request.headers["content-type"];
+
+  //chama a função para atualizar o usuario e encaminha os dados, o id e o content-type
+  let categoria = await controllerCategoria.atualizarCategoria(dadosBody, idCategoria, contentType);
+
+  response.status(categoria.status_code);
+  response.json(categoria);
+});
+
+// Deleta a categoria filtrando pelo ID
+app.delete("/queridofogao/v1/categorias/:id", cors(), async function (request, response) {
+
+  let idCategoria = request.params.id;
+
+  let categoria = await controllerCategoria.excluirCategoria(idCategoria);
+  //console.log(usuario)
+  response.status(categoria.status_code);
+  response.json(categoria);
+});
+
+
 
 /////////////////////////////////////////
 

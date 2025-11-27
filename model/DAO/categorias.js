@@ -107,12 +107,12 @@ const setInsertCategory = async (categoria) => {
 };
 
 // Altera uma categoria pelo ID no banco de dados
-const setUpdateCategory = async (categoria) => {
+const setUpdateCategory = async (categoria, id) => {
   try {
     let sql = `UPDATE tb_categorias SET
                         nome = '${categoria.nome}'
                                                
-                    WHERE id = ${categoria.id}`;
+                    WHERE id = ${id}`;
 
     //executeRawUnsafe() -> executa o script SQL que não tem retorno de valores
     let result = await prisma.$executeRawUnsafe(sql);

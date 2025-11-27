@@ -114,7 +114,7 @@ const inserirCategoria = async (categoria, contentType) => {
 };
 
 //atualiza uma categoria buscando pelo id
-const atualizarCategoria = async (categoria, contentType) => {
+const atualizarCategoria = async (categoria, id, contentType) => {
   //criando um objeto novo para as mensagens
   let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES));
 
@@ -122,17 +122,19 @@ const atualizarCategoria = async (categoria, contentType) => {
     //validação do tipo de conteudo da requisição (obrigatorio ser um json)
     if (String(contentType).toUpperCase() == "APPLICATION/JSON") {
       //validação de ID válido, chama a função da controller que verifica no DB se o ID existe e valida o ID
-      let validarID = await buscarCategoriaId(categoria.id);
+      let validarID = await buscarCategoriaId(id);
 
       if (validarID.status_code == 200) {
         //chama a função para inserir uma nova categoria no DB
-        let resultCategorias = await categoriaDAO.setUpdateCategory(categoria);
+        let resultCategorias = await categoriaDAO.setUpdateCategory(categoria, id);
 
         if (resultCategorias) {
           MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status;
           MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_UPDATED_ITEM.status_code;
           MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_UPDATED_ITEM.message;
-          MESSAGES.DEFAULT_HEADER.items.categoria = categoria;
+          MESSAGES.DEFAULT_HEADER.categoria = categoria;
+
+          delete MESSAGES.DEFAULT_HEADER.items;
 
           return MESSAGES.DEFAULT_HEADER; //200
         } else {
