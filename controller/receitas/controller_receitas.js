@@ -111,6 +111,9 @@ const inserirReceita = async (receita, contentType) => {
             likes: getReceita.items.receitas[0].likes,
             url_imagem: getReceita.items.receitas[0].url_imagem,
             data_cadastro: getReceita.items.receitas[0].data_cadastro,
+            id_usuario: getReceita.items.receitas[0].id_usuario,
+            id_dificuldade: getReceita.items.receitas[0].id_dificuldade,
+            id_tipo_cozinha: getReceita.items.receitas[0].id_tipo_cozinha,
           };
 
           delete MESSAGES.DEFAULT_HEADER.items;
@@ -149,7 +152,8 @@ const atualizarReceita = async (receita, id, contentType) => {
           MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status;
           MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_UPDATED_ITEM.status_code;
           MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_UPDATED_ITEM.message;
-          MESSAGES.DEFAULT_HEADER.items.usuario = usuario;
+          MESSAGES.DEFAULT_HEADER.receita = receita;
+          delete MESSAGES.DEFAULT_HEADER.items;
           return MESSAGES.DEFAULT_HEADER; //200
         } else {
           return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
@@ -183,9 +187,9 @@ const excluirReceita = async (id) => {
           MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETED_ITEM.status;
           MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_DELETED_ITEM.status_code;
           MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_DELETED_ITEM.message;
-          MESSAGES.DEFAULT_HEADER.items.receita = resultReceitas;
+          MESSAGES.DEFAULT_HEADER.receita = resultReceitas;
           delete MESSAGES.DEFAULT_HEADER.items;
-          return MESSAGES.DEFAULT_HEADER; //200
+          return MESSAGES.DEFAULT_HEADER; //200.
         } else {
           return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
         }

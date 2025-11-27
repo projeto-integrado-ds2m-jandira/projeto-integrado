@@ -113,8 +113,7 @@ const setInsertRecipes = async (receita) => {
                         data_cadastro,
                         id_usuario,
                         id_dificuldade,
-                        id_tipo_cozinha,
-                        id_status)
+                        id_tipo_cozinha)                        )
 					      values( 
                             '${receita.titulo}',
                             '${receita.descricao}',
@@ -127,8 +126,7 @@ const setInsertRecipes = async (receita) => {
                             curdate(),
                             '${receita.id_usuario}',
                             '${receita.id_dificuldade}',
-                            '${receita.id_tipo_cozinha}',
-                            '${receita.id_status}')`;
+                            '${receita.id_tipo_cozinha}')`;
 
     //executeRawUnsafe() -> executa o script SQL que não tem retorno de valores
     let result = await prisma.$executeRawUnsafe(sql);
@@ -159,7 +157,7 @@ const setInsertRecipes = async (receita) => {
 // setInsertRecipes(novaReceita);
 
 // Altera uma receita pelo ID no banco de dados
-const setUpdateRecipes = async (receita) => {
+const setUpdateRecipes = async (receita, id) => {
   try {
     let sql = `UPDATE tb_receitas SET
                         titulo = '${receita.titulo}',
@@ -169,11 +167,12 @@ const setUpdateRecipes = async (receita) => {
                         calorias = '${receita.calorias}',
                         avaliacao = '${receita.avaliacao}',
                         likes = '${receita.likes}',
+                        url_imagem = '${receita.url_imagem}',
                         id_dificuldade = '${receita.id_dificuldade}',
                         id_tipo_cozinha = '${receita.id_tipo_cozinha}',
                         id_status = '${receita.id_status}'
                         
-                    WHERE id = ${receita.id}`;
+                    WHERE id = ${id}`;
 
     //executeRawUnsafe() -> executa o script SQL que não tem retorno de valores
     let result = await prisma.$executeRawUnsafe(sql);
