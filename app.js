@@ -30,6 +30,7 @@ app.use((request, response, next) => {
 
 //Import das controllers
 const controllerUsuario = require("./controller/usuario/controller_usuario.js");
+const controllerReceita = require("./controller/receitas/controller_receitas.js");
 
 ///////////////////  EndPoints para a rota de Usuário ////////////////////////////
 
@@ -100,6 +101,74 @@ app.delete("/queridofogao/v1/usuarios/:id", cors(), async function (request, res
 });
 
 // fazer os endpoints de categorias
+
+///////////////////  EndPoints para a rota de Receitas ////////////////////////////
+
+// Retorna a lista de todas as receitas
+app.get("/queridofogao/v1/receitas", cors(), async function (request, response) {
+  //Chama a função para listar as receitas do BD
+  let receita = await controllerReceita.listarReceitas();
+
+  response.status(receita.status_code);
+  response.json(receita);
+});
+
+//Retorna a receita filtrando pelo ID
+app.get("/queridofogao/v1/receitas/:id", cors(), async function (request, response) {
+  //Recebe o ID encaminhado via parametro na requisição
+  let idReceita = request.params.id;
+
+  //Chama a função para listar as receitas do BD
+  let receita = await controllerReceita.buscarReceitaId(idReceita);
+
+  response.status(receita.status_code);
+  response.json(receita);
+});
+
+//Insere uma nova receita
+app.post("/queridofogao/v1/receitas", cors(), bodyParserJSON, async function (request, response) {
+  //Recebe os dados do body da requisição (Se você utilizar o bodyParser, é obrigatório ter no endPoint)
+  let dadosBody = request.body;
+
+  //Recebe o tipo de dados da requisição (JSON ou XML ou ....)
+  let contentType = request.headers["content-type"];
+
+  //Chama a função da controller para inserir o novo usuario, encaminha os dados e o content-type
+  let receita = await controllerReceita.inserirReceita(dadosBody, contentType);
+
+  response.status(receita.status_code);
+  response.json(receita);
+});
+
+//Atualiza uma receita existente
+app.put("/queridofogao/v1/receitas/:id", cors(), bodyParserJSON, async function (request, response) {
+  //Recebe o ID da receita
+  let idReceita = request.params.id;
+
+  //Recebe os dados a serem atualizados
+  let dadosBody = request.body;
+
+  //Recebe o content-type da requisição
+  let contentType = request.headers["content-type"];
+
+  //chama a função para atualizar a receita e encaminha os dados, o id e o content-type
+  let receita = await controllerReceita.atualizarReceita(dadosBody, idReceita, contentType);
+
+  response.status(receita.status_code);
+  response.json(receita);
+});
+
+// Deleta a receita filtrando pelo ID
+app.delete("/queridofogao/v1/receitas/:id", cors(), async function (request, response) {
+  //Recebe o ID encaminhado via parametro na requisição
+  let idReceita = request.params.id;
+
+  //Chama a função para listar as receitas do BD
+  let receita = await controllerReceita.excluirReceita(idReceita);
+  //console.log(receita)
+  response.status(receita.status_code);
+  response.json(receita);
+});
 
 /////////////////////////////////////////
 
