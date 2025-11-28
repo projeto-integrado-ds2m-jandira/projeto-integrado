@@ -154,3 +154,12 @@ const atualizarUnidadeMedida = async (medida, id, contentType) => {
     }
 
 }
+
+module.exports = {
+    listarTodasUnidadesMedida,
+    buscarUnidadeMedidaId,
+    buscarCategoriaId,
+    inserirUnidadeMedida,
+    atualizarUnidadeMedida
+
+}
