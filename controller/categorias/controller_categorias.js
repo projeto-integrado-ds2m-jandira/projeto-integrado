@@ -1,7 +1,7 @@
 /* *********************************************************************
  * Objetivo: Arquivo responsavel pela manipulação de dados entre o APP e a MODEL para o CRUD de categorias
  *
- * Autor: Tiago Guimarães
+ * Autor: Thiago Guimarães
  *
  * Data: 25/11/2025
  * Versão: 1.0 (CRUD básico de categorias, sem as relações com outras tabelas)
