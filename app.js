@@ -32,6 +32,7 @@ app.use((request, response, next) => {
 const controllerUsuario = require("./controller/usuario/controller_usuario.js");
 const controllerReceita = require("./controller/receitas/controller_receitas.js");
 const controllerCategoria = require("./controller/categorias/controller_categorias.js");
+const controllerIngrediente = require("./controller/ingredientes/controller_ingredientes.js");
 
 
 ///////////////////  EndPoints para a rota de Usuário ////////////////////////////
@@ -237,6 +238,68 @@ app.delete("/queridofogao/v1/categorias/:id", cors(), async function (request, r
 });
 
 
+///////////////////  EndPoints para a rota de Ingredientes ////////////////////////////
+
+app.get("/queridofogao/v1/ingredientes", cors(), async function (request, response) {
+  //Chama a função para listar os usuários do BD
+  let ingrediente = await controllerIngrediente.listarIngredientes();
+
+  response.status(ingrediente.status_code);
+  response.json(ingrediente);
+});
+
+app.get("/queridofogao/v1/ingredientes/:id", cors(), async function (request, response) {
+  //Recebe o ID encaminhado via parametro na requisição
+  let idIngrediente = request.params.id;
+
+  //Chama a função para listar os usuarios do BD
+  let ingrediente = await controllerIngrediente.buscarIngredientesId(idIngrediente);
+
+  response.status(ingrediente.status_code);
+  response.json(ingrediente);
+});
+
+app.post("/queridofogao/v1/ingredientes", cors(), bodyParserJSON, async function (request, response) {
+  //Recebe os dados do body da requisição (Se você utilizar o bodyParser, é obrigatório ter no endPoint)
+  let dadosBody = request.body;
+
+  //Recebe o tipo de dados da requisição (JSON ou XML ou ....)
+  let contentType = request.headers["content-type"];
+
+  //Chama a função da controller para inserir o novo usuario, encaminha os dados e o content-type
+  let ingrediente = await controllerIngrediente.inserirIngrediente(dadosBody, contentType);
+
+  response.status(ingrediente.status_code);
+  response.json(ingrediente);
+});
+
+app.put("/queridofogao/v1/ingredientes/:id", cors(), bodyParserJSON, async function (request, response) {
+  //Recebe o ID do usuario
+  let idIngrediente = request.params.id;
+
+  //Recebe os dados a serem atualizados
+  let dadosBody = request.body;
+
+  //Recebe o content-type da requisição
+  let contentType = request.headers["content-type"];
+
+  //chama a função para atualizar o usuario e encaminha os dados, o id e o content-type
+  let ingrediente = await controllerIngrediente.atualizarIngrediente(dadosBody, idIngrediente, contentType);
+
+  response.status(ingrediente.status_code);
+  response.json(ingrediente);
+});
+
+app.delete("/queridofogao/v1/ingredientes/:id", cors(), async function (request, response) {
+  //Recebe o ID encaminhado via parametro na requisição
+  let idIngrediente = request.params.id;
+
+  //Chama a função para listar os usuarios do BD
+  let ingrediente = await controllerIngrediente.excluirIngrediente(idIngrediente);
+  //console.log(usuario)
+  response.status(ingrediente.status_code);
+  response.json(ingrediente);
+});
 
 /////////////////////////////////////////
 
