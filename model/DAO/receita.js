@@ -101,43 +101,41 @@ const getSelectLastId = async () => {
 //insere uma receita nova no banco de dados
 const setInsertRecipes = async (receita) => {
   try {
-    let sql = `INSERT INTO tb_receitas (
-                        titulo,
-                        descricao,
-						            tempo_preparo,
-                        passos_preparo,
-                        calorias,
-                        avaliacao,
-                        likes,
-                        url_imagem,
-                        data_cadastro,
-                        id_usuario,
-                        id_dificuldade,
-                        id_tipo_cozinha,
-                        id_status)
-					      values( 
-                            '${receita.titulo}',
-                            '${receita.descricao}',
-							              '${receita.tempo_preparo}',
-                            '${receita.passos_preparo}',
-                            '${receita.calorias}',
-                            '${receita.avaliacao}',
-                            '${receita.likes}',
-                            '${receita.url_imagem}',
-                            curdate(),
-                            '${receita.id_usuario}',
-                            '${receita.id_dificuldade}',
-                            '${receita.id_tipo_cozinha}',
-                            '${receita.id_status}')`;
+    // A Stored Procedure sp_criar_receita espera 12 parâmetros de entrada (p_titulo até p_ingredientes_dados)
+    // e retorna o ID da nova receita (SELECT v_id_receita AS id_nova_receita;).
 
-    //executeRawUnsafe() -> executa o script SQL que não tem retorno de valores
-    let result = await prisma.$executeRawUnsafe(sql);
-    console.log(result);
+    // Usamos $queryRawUnsafe() pois a Stored Procedure retorna um SELECT.
+    let sql = `
+            CALL sp_criar_receita(
+                '${receita.titulo}',
+                '${receita.descricao || ""}',
+                '${receita.tempo_preparo}',
+                '${receita.passos_preparo}',
+                ${receita.calorias || "NULL"},
+                ${receita.avaliacao || "NULL"},
+                ${receita.likes || 0},
+                ${receita.url_imagem ? `'${receita.url_imagem}'` : "NULL"},
+                ${receita.id_usuario},
+                ${receita.id_dificuldade},
+                ${receita.id_tipo_cozinha},
+                '${receita.categorias_ids}', 
+                '${receita.ingredientes_dados}'
+            );
+        `;
 
-    if (result) return true;
-    else return false;
+    // Executa a CALL. O resultado de uma CALL com SELECT é um array de arrays no Prisma.
+    const result = await prisma.$queryRawUnsafe(sql);
+    // console.log(result);
+
+    // O ID da nova receita está no resultado[0][0].id_nova_receita
+    if (result && result[0] && result[0][0] && typeof result[0][0].id_nova_receita === "number") {
+      return Number(result[0][0].id_nova_receita);
+    } else {
+      // Se a SP executou mas não retornou o ID (comportamento inesperado), consideramos falha.
+      return false;
+    }
   } catch (error) {
-    console.log(error);
+    console.error("Erro no DAO (setInsertRecipes) ao executar a SP:", error);
     return false;
   }
 };

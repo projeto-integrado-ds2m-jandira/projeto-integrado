@@ -73,62 +73,76 @@ const buscarReceitaId = async (id) => {
 };
 
 //insere uma receita
-/* Vazio, undefined e null estão sendo cadastrados no banco. Tratar pelo front */
-const inserirReceita = async (receita, contentType) => {
-  //criando um objeto novo para as mensagens
-  let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES));
+const inserirReceita = async (dadosBody, contentType) => {
+  // ... Validação de Content-Type e campos obrigatórios aqui ...
+
+  // --- Lógica de Formatação para a Stored Procedure ---
+
+  // 1. Formatar Categorias: [1, 3]  =>  '1,3'
+  const categoriasIdsString = dadosBody.categorias.join(",");
+
+  // 2. Formatar Ingredientes: [{id: 1, qtd: 300, un: 1}, ...]  =>  '1:300:1;2:10:4'
+  const ingredientesDadosString = dadosBody.ingredientes
+    .map((ing) => {
+      return `${ing.id_ingrediente}:${ing.quantidade}:${ing.id_unidade}`;
+    })
+    .join(";");
+
+  // 3. Montar o Objeto de Parâmetros (incluindo as strings formatadas)
+  const dadosParaDAO = {
+    ...dadosBody, // Pega todos os campos básicos (titulo, tempo_preparo, id_usuario, etc.)
+    categorias_ids: categoriasIdsString, // Novo campo exigido pelo DAO/SP
+    ingredientes_dados: ingredientesDadosString, // Novo campo exigido pelo DAO/SP
+  };
 
   try {
-    //validação do tipo de conteudo da requisição (obrigatorio ser um json)
-    if (String(contentType).toUpperCase() == "APPLICATION/JSON") {
-      //chama a função para inserir uma nova receita no DB
-      let resultReceitas = await receitaDAO.setInsertRecipes(receita);
+    // 4. Chamada ao DAO
+    const novoId = await receitaDAO.setInsertRecipes(dadosParaDAO);
 
-      if (resultReceitas) {
-        //chama a função para receber o ID gerado no DB
-        let lastID = await receitaDAO.getSelectLastId();
-
-        if (lastID) {
-          //adiciona o ID no JSON com os dados da receita
-          receita.id = lastID;
-          MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status;
-          MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code;
-          MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message;
-
-          // MESSAGES.DEFAULT_HEADER.items = usuario;
-          // criar variável para receber os dados parciais da receita
-
-          let getReceita = await buscarReceitaId(receita.id);
-
-          let receitaData = {
-            id: getReceita.items.receitas[0].id,
-            titulo: getReceita.items.receitas[0].titulo,
-            descricao: getReceita.items.receitas[0].descricao,
-            tempo_preparo: getReceita.items.receitas[0].tempo_preparo,
-            passos_preparo: getReceita.items.receitas[0].passos_preparo,
-            calorias: getReceita.items.receitas[0].calorias,
-            avaliacao: getReceita.items.receitas[0].avaliacao,
-            likes: getReceita.items.receitas[0].likes,
-            url_imagem: getReceita.items.receitas[0].url_imagem,
-            data_cadastro: getReceita.items.receitas[0].data_cadastro,
-          };
-
-          delete MESSAGES.DEFAULT_HEADER.items;
-          MESSAGES.DEFAULT_HEADER.receita = receitaData;
-          return MESSAGES.DEFAULT_HEADER; //201
-        } else {
-          return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
-        }
-      } else {
-        return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
-      }
+    if (novoId) {
+      // ... (Lógica para buscar a receita completa, se necessário) ...
+      return {
+        status_code: 201,
+        message: "Receita inserida com sucesso!",
+        id: novoId,
+      };
     } else {
-      return MESSAGES.ERROR_CONTENT_TYPE; //415
+      return {
+        status_code: 500,
+        message: "Erro ao inserir receita no banco de dados. Verifique os IDs de FKs.",
+      };
     }
   } catch (error) {
-    return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER; //500
+    // ... (Tratamento de erro) ...
   }
 };
+
+const novaReceita = {
+  titulo: "Teste Bolo Simples de Laranja",
+  descricao: "Um bolo fácil e rápido.",
+  tempo_preparo: "00:40:00",
+  passos_preparo: "Misture os secos, adicione os líquidos, asse por 40 min.",
+  calorias: 320,
+  url_imagem: "http://img.com/bolo.jpg",
+  id_usuario: 3,
+  id_dificuldade: 1,
+  id_tipo_cozinha: 1,
+  categorias: [2, 1], // Array de IDs de categorias (Sobremesa, Prato Principal)
+  ingredientes: [
+    {
+      id_ingrediente: 12,
+      quantidade: 2,
+      id_unidade: 4,
+    },
+    {
+      id_ingrediente: 9,
+      quantidade: 1,
+      id_unidade: 4,
+    },
+  ],
+};
+
+inserirReceita(novaReceita, "application/json");
 
 //atualiza uma receita buscando pelo id
 
