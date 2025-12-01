@@ -33,7 +33,8 @@ const controllerUsuario = require("./controller/usuario/controller_usuario.js");
 const controllerReceita = require("./controller/receitas/controller_receitas.js");
 const controllerCategoria = require("./controller/categorias/controller_categorias.js");
 const controllerUnidadeMedida = require("./controller/unidade-medidas/controller_unidade-medidas.js")
-const controllerIngrediente = require("./controller/ingredientes/controller_ingredientes.js")
+const controllerIngrediente = require("./controller/ingredientes/controller_ingredientes.js");
+const controllerDificuldades = require("./controller/dificuldades/controller_dificuldades.js");
 
 
 ///////////////////  EndPoints para a rota de Usuário ////////////////////////////
@@ -449,6 +450,28 @@ app.delete("/queridofogao/v1/tipoCozinha/:id", cors(), async function (request, 
   //console.log(receita)
   response.status(tipoCozinha.status_code);
   response.json(tipoCozinha);
+});
+
+
+/////////////////////////// EndPoints para a rota de tipo_cozinha ///////////////////////////////////////
+
+app.get("/queridofogao/v1/dificuldades", cors(), async function (request, response) {
+  //Chama a função para listar os usuários do BD
+  let dificuldade = await controllerDificuldades.listarDificuldades();
+
+  response.status(dificuldade.status_code);
+  response.json(dificuldade);
+});
+
+app.get("/queridofogao/v1/dificuldades/:id", cors(), async function (request, response) {
+  //Recebe o ID encaminhado via parametro na requisição
+  let idDificuldade = request.params.id;
+
+  //Chama a função para listar os usuarios do BD
+  let dificuldade = await controllerDificuldades.buscarDificuldadeId(idDificuldade);
+
+  response.status(dificuldade.status_code);
+  response.json(dificuldade);
 });
 
 
