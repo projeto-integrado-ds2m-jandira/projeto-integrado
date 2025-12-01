@@ -32,6 +32,7 @@ app.use((request, response, next) => {
 const controllerUsuario = require("./controller/usuario/controller_usuario.js");
 const controllerReceita = require("./controller/receitas/controller_receitas.js");
 const controllerCategoria = require("./controller/categorias/controller_categorias.js");
+const controllerUnidadeMedida = require("./controller/unidade-medidas/controller_unidade-medidas.js")
 
 
 ///////////////////  EndPoints para a rota de Usuário ////////////////////////////
@@ -236,6 +237,78 @@ app.delete("/queridofogao/v1/categorias/:id", cors(), async function (request, r
   response.json(categoria);
 });
 
+
+//////////////////////////////////End Points unidade de medidas ///////////////////////////////////////
+
+app.get("/queridofogao/v1/medidas", cors(), async function (resquest, response) {
+
+  let medidas = await controllerUnidadeMedida.listarTodasUnidadesMedida()
+
+  response.status(medidas.status_code)
+  response.json(medidas)
+  
+} )
+
+
+app.get("/queridofogao/v1/medidas/:id", cors(), async function (request, response) {
+
+  let idMedida = request.params.id
+
+  let medida = await controllerUnidadeMedida.buscarUnidadeMedidaId(idMedida)
+
+
+
+
+  response.status(medida.status_code)
+
+  response.json(medida)
+  
+
+})
+
+app.post("/queridofogao/v1/medidas", cors(), bodyParserJSON, async function (request, response) {
+  
+  let dadosBody = request.body
+
+  let contentType = request.headers["content-type"]
+
+  let medida = await controllerUnidadeMedida.inserirUnidadeMedida(dadosBody , contentType)
+
+  console.log(medida)
+
+  response.status(medida.status_code)
+  response.json(medida)
+
+})
+
+app.put("/queridofogao/v1/medidas/:id", cors(), bodyParserJSON, async function (request, response) {
+
+  let idMedida = request.params.id
+
+  let dadosBody = request.body
+
+  let contentType = request.headers["content-type"]
+
+  let medida = await controllerUnidadeMedida.atualizarUnidadeMedida(dadosBody, idMedida, contentType)
+
+  console.log(medida)
+
+  response.status(medida.status_code)
+  response.json(medida)
+
+})
+
+app.delete("/queridofogao/v1/medidas/:id" , cors(), async function (request, response) {
+
+  let idMedida = request.params.id
+
+  let medida = await controllerUnidadeMedida.deletarUnidadeMedida(idMedida)
+
+  response.status(medida.status_code)
+  response.json(medida)
+
+  
+})
 
 
 /////////////////////////////////////////

@@ -71,9 +71,10 @@ const getSelectUnitById = async (id) => {
   try {
     //script SQL
     let sql = `select * from tb_unidades_medidas where id=${id}`;
+
+    
     //encaminha para o BD o script SQL
     let result = await prisma.$queryRawUnsafe(sql);
-    console.log(result);
 
     if (Array.isArray(result)) return result;
     else return false;
@@ -133,13 +134,13 @@ const setInsertUnit = async (unidade) => {
 // setInsertUnit(newUnit);
 
 // Altera uma unidade de medida pelo ID no banco de dados
-const setUpdateUnit = async (unidade) => {
+const setUpdateUnit = async (unidade, id) => {
   try {
     let sql = `UPDATE tb_unidades_medidas SET
                         nome = '${unidade.nome}',
                         abreviacao = '${unidade.abreviacao}'
                                                
-                    WHERE id = ${unidade.id}`;
+                    WHERE id = ${id}`;             
 
     //executeRawUnsafe() -> executa o script SQL que não tem retorno de valores
     let result = await prisma.$executeRawUnsafe(sql);

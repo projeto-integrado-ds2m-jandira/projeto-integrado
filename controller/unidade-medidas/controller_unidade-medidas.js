@@ -50,7 +50,7 @@ const buscarUnidadeMedidaId = async (id) => {
     try {
         // validando se o id veio corretamente
         if (!isNaN(id) && id != "" && id != null && id > 0) {
-            let resultBuscarUnidade = await unidadeMedidaDao.getSelectUnitById()
+            let resultBuscarUnidade = await unidadeMedidaDao.getSelectUnitById(id)
 
             if (resultBuscarUnidade) {
                 if (resultBuscarUnidade.length > 0) {
@@ -93,9 +93,9 @@ const inserirUnidadeMedida = async (medida, contentType) => {
                 if (lastID) {
 
                     medida.id = lastID
-                    MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCESS_CREATED_ITEM.status
-                    MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCESS_CREATED_ITEM.status_code
-                    MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCESS_CREATED_ITEM.message
+                    MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status
+                    MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code
+                    MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_CREATED_ITEM.message
 
                     MESSAGES.DEFAULT_HEADER.items = medida
 
@@ -112,7 +112,9 @@ const inserirUnidadeMedida = async (medida, contentType) => {
         }
 
     } catch (error) {
+         console.log(error)
         return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER
+       
     }
 }
 
@@ -124,11 +126,11 @@ const atualizarUnidadeMedida = async (medida, id, contentType) => {
 
         if (String(contentType).toUpperCase() == "APPLICATION/JSON") {
 
-            let validarID = await buscarCategoriaId(id)
+            let validarID = await buscarUnidadeMedidaId(id)
 
             if (validarID.status_code == 200) {
 
-                let resultAtualizarUnidade = await unidadeMedidaDao.setUpdateUnit()
+                let resultAtualizarUnidade = await unidadeMedidaDao.setUpdateUnit(medida, id)
 
                 if (resultAtualizarUnidade) {
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status
@@ -155,11 +157,53 @@ const atualizarUnidadeMedida = async (medida, id, contentType) => {
 
 }
 
+const deletarUnidadeMedida = async (id) => {
+
+    let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
+
+    try {
+        if(!isNaN(id) && id != "" && id != null && id > 0){
+
+            let validarID = await buscarUnidadeMedidaId(id)
+
+            if(validarID.status_code == 200){
+
+                let resultUnidadeMedida = await unidadeMedidaDao.setDeleteUnit(Number(id))
+
+                if(resultUnidadeMedida){
+
+                    MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETED_ITEM.status
+                    MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_DELETED_ITEM.status_code
+                    MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_DELETED_ITEM.message
+                    MESSAGES.DEFAULT_HEADER.items.medida = resultUnidadeMedida
+
+                    delete MESSAGES.DEFAULT_HEADER.items
+                    return MESSAGES.DEFAULT_HEADER
+                    
+                } else{
+                    return MESSAGES.ERROR_INTERNAL_SERVER_MODEL
+                }
+
+            }else{
+                return MESSAGES.ERROR_NOT_FOUND
+            }
+        } else{
+            MESSAGES.ERROR_REQUIRED_FIELDS.message += " [ID incorreto] "
+            return MESSAGES.ERROR_REQUIRED_FIELDS
+        }
+
+    } catch (error) {
+        return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
+
+}
+
 module.exports = {
     listarTodasUnidadesMedida,
     buscarUnidadeMedidaId,
     buscarCategoriaId,
     inserirUnidadeMedida,
-    atualizarUnidadeMedida
+    atualizarUnidadeMedida,
+    deletarUnidadeMedida
 
 }
