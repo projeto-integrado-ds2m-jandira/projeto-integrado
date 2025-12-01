@@ -379,6 +379,79 @@ app.delete("/queridofogao/v1/ingredientes/:id", cors(), async function (request,
 
 /////////////////////////////////////////
 
+/////////////////////////// EndPoints para a rota de tipo_cozinha ///////////////////////////////////////
+
+//Retorna a lista de todos os tipos de cozinha
+app.get("/queridofogao/v1/tipoCozinha", cors(), async function (request, response) {
+  //Chama a função para listar os tipo de cozinha do banco de dados
+  let tipoCozinha = await controllerTipoCozinha.listarTipoCozinha()
+
+  response.status(tipoCozinha.status_code)
+  response.json(tipoCozinha)
+  
+})
+
+//Retorna a receita filtrando pelo Id
+app.get("/queridofogao/v1/tipoCozinha/:id", cors(), bodyParserJSON, async function (request, response) {
+  //Recebe o id encaminhando via parâmetro na requisição
+  let idTipoCozinha = request.params.id
+
+  //Chama a função para listar as receitas do Banco de Dados
+  let tipoCozinha = await controllerTipoCozinha.buscarTipoCozinhaId(idTipoCozinha)
+
+  response.status(tipoCozinha.status_code)
+  response.json(tipoCozinha)
+})
+
+//Insere um novo tipo de cozinha
+app.post("/queridofogao/v1/tipoCozinha", cors(), bodyParserJSON, async function (request, response) {
+  //Recebe os dados do body da requisição (Se você utilizar o bodyParser, é obrigatório ter no endPoint)
+  let dadosBody = request.body
+
+  //Recebe o tipo de dados da requisição (JSON ou XML ou ....)
+  let contentType = request.headers["content-type"];
+
+  //Chama a função da controller para inserir o novo usuario, encaminha os dados e o content-type
+  let tipoCozinha = await controllerTipoCozinha.inserirTipoCozinha(dadosBody, contentType)
+
+  response.status(tipoCozinha.status_code)
+  response.json(tipoCozinha)
+})
+
+//Atualiza um tipo de cozinha existente
+app.put("/queridofogao/v1/tipoCozinha/:id", cors(), bodyParserJSON, async function (request, response) {
+  //Recebe o id do tipo cozinha
+  let idTipoCozinha = request.params.id
+
+  //Recebe os dados a serem atualizados
+  let dadosBody = request.body
+
+
+  //Recebe o content-type da requisição
+  let contentType = request.headers["content-type"]
+
+
+  //Chama a função para atualizar o tipo cozinha e encaminha os dados, o id e o content-type
+  let tipoCozinha = await controllerTipoCozinha.atualizarTipoCozinha(dadosBody, idTipoCozinha, contentType)
+
+
+  response.status(tipoCozinha.status_code)
+  response.json(tipoCozinha)
+})
+
+// Deleta um tipo cozinha filtrando pelo ID
+app.delete("/queridofogao/v1/tipoCozinha/:id", cors(), async function (request, response) {
+  //Recebe o ID encaminhado via parametro na requisição
+  let idTipoCozinha = request.params.id;
+
+  //Chama a função para listar as receitas do BD
+  let tipoCozinha = await controllerTipoCozinha.excluirTipoCozinha(idTipoCozinha);
+  //console.log(receita)
+  response.status(tipoCozinha.status_code);
+  response.json(tipoCozinha);
+});
+
+
 // Start da API
 app.listen(PORT, function () {
   console.log("API Aguardando Requisições !!!");
