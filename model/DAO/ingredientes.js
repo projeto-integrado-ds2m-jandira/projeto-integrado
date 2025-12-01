@@ -136,14 +136,14 @@ const setInsertIngredient = async (ingrediente) => {
 // setInsertIngredient(newIngredient);
 
 // Altera um ingrediente pelo ID no banco de dados
-const setUpdateIngredient = async (ingrediente) => {
+const setUpdateIngredient = async (ingrediente, id) => {
   try {
     let sql = `UPDATE tb_ingredientes SET
                         nome = '${ingrediente.nome}',
                         alergeno = '${ingrediente.alergeno}',
                         tipo = '${ingrediente.tipo}'
                                                
-                    WHERE id = ${ingrediente.id}`;
+                    WHERE id = ${id}`;
 
     //executeRawUnsafe() -> executa o script SQL que não tem retorno de valores
     let result = await prisma.$executeRawUnsafe(sql);

@@ -41,27 +41,27 @@ const buscarIngredientesId = async function (id) {
     let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES));
 
     try {
-        if(!isNaN(id) && id != "" && id != null && id > 0){
+        if (!isNaN(id) && id != "" && id != null && id > 0) {
             let resultIngredientes = await ingredientesDAO.getSelectIngredientById(Number(id));
 
-            if(resultIngredientes){
-                if(resultIngredientes.length > 0){
+            if (resultIngredientes) {
+                if (resultIngredientes.length > 0) {
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status;
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code;
                     MESSAGES.DEFAULT_HEADER.items.ingredientes = resultIngredientes;
 
                     return MESSAGES.DEFAULT_HEADER;
-                }else{
+                } else {
                     return MESSAGES.ERROR_NOT_FOUND;
                 }
-            }else{
+            } else {
                 return MESSAGES.ERROR_INTERNAL_SERVER_MODEL
             }
-        }else{
+        } else {
             MESSAGES.ERROR_REQUIRED_FIELDS.message += "[ID incorreto]";
             return MESSAGES.ERROR_REQUIRED_FIELDS;
         }
-        
+
     } catch (error) {
         return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER;
     }
@@ -72,14 +72,14 @@ const inserirIngrediente = async function (ingrediente, contentType) {
 
     try {
         //validar o tipo de conteudo, pois precisa ser json
-        if(String(contentType).toUpperCase() == "APPLICATION/JSON"){
+        if (String(contentType).toUpperCase() == "APPLICATION/JSON") {
             let resultIngredientes = await ingredientesDAO.setInsertIngredient(ingrediente);
 
             if (resultIngredientes) {
                 //chama a função para receber o id que foi gerado no banco de dados
                 let lastID = await ingredientesDAO.getSelectLastId();
 
-                if(lastID){
+                if (lastID) {
                     ingrediente.id = lastID;
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_CREATED_ITEM.status;
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_CREATED_ITEM.status_code;
@@ -93,16 +93,102 @@ const inserirIngrediente = async function (ingrediente, contentType) {
                         alergeno: getIngrediente.items.ingredientes[0].alergeno,
                         tipo: getIngrediente.items.ingredientes[0].tipo
                     };
+
+                    delete MESSAGES.DEFAULT_HEADER.items;
+                    MESSAGES.DEFAULT_HEADER.ingrediente = ingredienteData;
+                    return MESSAGES.DEFAULT_HEADER;
+                } else {
+                    return MESSAGES.ERROR_INTERNAL_SERVER_MODEL;
                 }
+            } else {
+                return MESSAGES.ERROR_INTERNAL_SERVER_MODEL;
             }
+        } else {
+            return MESSAGES.ERROR_CONTENT_TYPE;
         }
     } catch (error) {
-        
+        return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER
     }
-    
+};
+
+const atualizarIngrediente = async function (ingrediente, id, contentType) {
+    try {
+        let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES));
+
+        if (String(contentType).toUpperCase() == "APPLICATION/JSON") {
+
+            // Validação do ID
+            let validarID = await buscarIngredientesId(id);
+
+            if (validarID.status_code == 200) {
+
+                // Atualização no banco de dados
+                let resultIngredientes = await ingredientesDAO.setUpdateIngredient(ingrediente, id);
+
+                if (resultIngredientes) {
+                    MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status;
+                    MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_UPDATED_ITEM.status_code;
+                    MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_UPDATED_ITEM.message;
+                    MESSAGES.DEFAULT_HEADER.items.ingrediente = ingrediente;
+
+                    return MESSAGES.DEFAULT_HEADER; // 200
+                } else {
+                    return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; // 500
+                }
+
+            } else {
+                return validarID; // 400, 404 ou 500 da validação do ID
+            }
+
+        } else {
+            return MESSAGES.ERROR_CONTENT_TYPE; // 415
+        }
+
+    } catch (error) {
+        return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER; // 500
+    }
 }
 
-module.exports= {
+const excluirIngrediente = async function (id) {
+    let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES));
+    
+      try {
+        //Validação da chegada do ID
+        if (!isNaN(id) && id != "" && id != null && id > 0) {
+          //Validação de ID válido, chama a função da controller que verifica no BD se o ID existe e valida o ID
+          let validarID = await buscarIngredientesId(id);
+    
+          if (validarID.status_code == 200) {
+            let resultIngredientes = await ingredientesDAO.setDeleteIngredient(Number(id));
+    
+            if (resultIngredientes) {
+              MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETED_ITEM.status;
+              MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_DELETED_ITEM.status_code;
+              MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_DELETED_ITEM.message;
+              MESSAGES.DEFAULT_HEADER.items.ingrediente = resultIngredientes;
+              delete MESSAGES.DEFAULT_HEADER.items;
+              return MESSAGES.DEFAULT_HEADER; //200
+            } else {
+              return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
+            }
+          } else {
+            return MESSAGES.ERROR_NOT_FOUND; //404
+          }
+        } else {
+          MESSAGES.ERROR_REQUIRED_FIELDS.message += " [ID incorreto]";
+          return MESSAGES.ERROR_REQUIRED_FIELDS; //400
+        }
+      } catch (error) {
+        return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER; //500
+      }
+};
+
+
+module.exports = {
     listarIngredientes,
     buscarIngredientesId,
+    inserirIngrediente,
+    atualizarIngrediente,
+    excluirIngrediente
+
 }
