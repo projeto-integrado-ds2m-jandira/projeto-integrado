@@ -1,0 +1,39 @@
+/* *********************************************************************
+ * Objetivo: Arquivo responsavel pela manipulação de dados entre o APP e a MODEL para o CRUD de dificuldades
+ *
+ * Autor: Samara Santos
+ *
+ * Data: 01/12/2025
+ * Versão: 1.0 (CRUD básico de dificuldades, sem as relações com outras tabelas)
+ * **********************************************************************/
+
+const dificuldadesDAO = require("../../model/DAO/dificuldades.js")
+
+const DEFAULT_MESSAGES = require("../messages/config_messages.js")
+
+
+const listarDificuldades = async () => {
+
+    let MESSAGES = JSON.parse(JSON.stringify(DEFAULT_MESSAGES))
+
+    try {
+        
+        let resultDificuldades = await dificuldadesDAO.getSelectAllDifficulties()
+
+        if(resultDificuldades){
+            if(resultDificuldades.length > 0){
+                MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status
+                MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code
+                MESSAGES.DEFAULT_HEADER.items.dificuldades = resultDificuldades
+
+                return MESSAGES.DEFAULT_HEADER
+            } else{
+                return MESSAGES.ERROR_NOT_FOUND
+            }
+        }
+
+    } catch (error) {
+        
+    }
+
+}
