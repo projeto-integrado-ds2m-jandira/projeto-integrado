@@ -74,6 +74,8 @@ const inserirDificuldade = async function (dificuldade, contentType) {
         if (String(contentType).toUpperCase() == "APPLICATION/JSON") {
             let resultDificuldades = await dificuldadesDAO.setInsertDifficulty(dificuldade);
 
+            console.log(resultDificuldades);
+
             if (resultDificuldades) {
                 //chama a função para receber o id que foi gerado no banco de dados
                 let lastID = await dificuldadesDAO.getSelectLastId();
@@ -87,8 +89,8 @@ const inserirDificuldade = async function (dificuldade, contentType) {
                     let getDificuldade = await buscarDificuldadeId(dificuldade.id);
 
                     let dificuldadeData = {
-                        id: getDificuldade.items.dificuldade[0].id,
-                        nome: getDificuldade.items.dificuldade[0].nome,
+                        id: getDificuldade.items.dificuldades[0].id,
+                        nome: getDificuldade.items.dificuldades[0].nome
                     };
 
                     delete MESSAGES.DEFAULT_HEADER.items;
@@ -107,6 +109,7 @@ const inserirDificuldade = async function (dificuldade, contentType) {
         return MESSAGES.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 };
+
 
 const atualizarDificuldade = async function (dificuldade, id, contentType) {
     try {

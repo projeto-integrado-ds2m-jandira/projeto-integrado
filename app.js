@@ -455,6 +455,7 @@ app.delete("/queridofogao/v1/tipoCozinha/:id", cors(), async function (request, 
 
 /////////////////////////// EndPoints para a rota de tipo_cozinha ///////////////////////////////////////
 
+// listar
 app.get("/queridofogao/v1/dificuldades", cors(), async function (request, response) {
   //Chama a função para listar os usuários do BD
   let dificuldade = await controllerDificuldades.listarDificuldades();
@@ -463,6 +464,7 @@ app.get("/queridofogao/v1/dificuldades", cors(), async function (request, respon
   response.json(dificuldade);
 });
 
+// buscar pelo id
 app.get("/queridofogao/v1/dificuldades/:id", cors(), async function (request, response) {
   //Recebe o ID encaminhado via parametro na requisição
   let idDificuldade = request.params.id;
@@ -474,6 +476,45 @@ app.get("/queridofogao/v1/dificuldades/:id", cors(), async function (request, re
   response.json(dificuldade);
 });
 
+// inserir
+app.post("/queridofogao/v1/dificuldades", cors(), bodyParserJSON, async function (request, response) {
+  let dadosBody = request.body;
+
+  let contentType = request.headers["content-type"];
+
+  let dificuldade = await controllerDificuldades.inserirDificuldade(dadosBody, contentType);
+
+  response.status(dificuldade.status_code);
+  response.json(dificuldade);
+});
+
+// atualizar
+app.put("/queridofogao/v1/dificuldades/:id", cors(), bodyParserJSON, async function (request, response) {
+  //Recebe o ID do usuario
+  let idDificuldade = request.params.id;
+
+  //Recebe os dados a serem atualizados
+  let dadosBody = request.body;
+
+  //Recebe o content-type da requisição
+  let contentType = request.headers["content-type"];
+
+  //chama a função para atualizar o usuario e encaminha os dados, o id e o content-type
+  let dificuldade = await controllerDificuldades.atualizarDificuldade(dadosBody, idDificuldade, contentType);
+
+  response.status(dificuldade.status_code);
+  response.json(dificuldade);
+});
+
+// deletar
+app.delete("/queridofogao/v1/dificuldades/:id", cors(), async function (request, response) {
+  let idDificuldade = request.params.id;
+
+  let dificuldade = await controllerDificuldades.excluirDificuldade(idDificuldade);
+  //console.log(usuario)
+  response.status(dificuldade.status_code);
+  response.json(dificuldade);
+});
 
 // Start da API
 app.listen(PORT, function () {
