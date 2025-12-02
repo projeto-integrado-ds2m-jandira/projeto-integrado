@@ -453,7 +453,7 @@ app.delete("/queridofogao/v1/tipoCozinha/:id", cors(), async function (request, 
 });
 
 
-/////////////////////////// EndPoints para a rota de tipo_cozinha ///////////////////////////////////////
+/////////////////////////// EndPoints para a rota de dificuldades ///////////////////////////////////////
 
 // listar
 app.get("/queridofogao/v1/dificuldades", cors(), async function (request, response) {
