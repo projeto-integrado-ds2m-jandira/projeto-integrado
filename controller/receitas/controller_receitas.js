@@ -25,8 +25,9 @@ const listarReceitas = async () => {
     if (resultReceitas) {
       if (resultReceitas.length > 0) {
         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status;
-        MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code;
-        MESSAGES.DEFAULT_HEADER.items.receitas = resultReceitas;
+        MESSAGES.DEFAULT_HEADER.status_code =
+          MESSAGES.SUCCESS_REQUEST.status_code;
+        MESSAGES.DEFAULT_HEADER.receitas = resultReceitas;
 
         return MESSAGES.DEFAULT_HEADER; //200
       } else {
@@ -53,8 +54,9 @@ const buscarReceitaId = async (id) => {
       if (resultReceitas) {
         if (resultReceitas.length > 0) {
           MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status;
-          MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code;
-          MESSAGES.DEFAULT_HEADER.items.receitas = resultReceitas;
+          MESSAGES.DEFAULT_HEADER.status_code =
+            MESSAGES.SUCCESS_REQUEST.status_code;
+          MESSAGES.DEFAULT_HEADER.receitas = resultReceitas;
 
           return MESSAGES.DEFAULT_HEADER;
         } else {
@@ -109,7 +111,8 @@ const inserirReceita = async (dadosBody, contentType) => {
     } else {
       return {
         status_code: 500,
-        message: "Erro ao inserir receita no banco de dados. Verifique os IDs de FKs.",
+        message:
+          "Erro ao inserir receita no banco de dados. Verifique os IDs de FKs.",
       };
     }
   } catch (error) {
@@ -118,7 +121,7 @@ const inserirReceita = async (dadosBody, contentType) => {
 };
 
 const novaReceita = {
-  titulo: "Teste Bolo Simples de Laranja",
+  titulo: "Teste Bolo",
   descricao: "Um bolo fácil e rápido.",
   tempo_preparo: "00:40:00",
   passos_preparo: "Misture os secos, adicione os líquidos, asse por 40 min.",
@@ -161,9 +164,11 @@ const atualizarReceita = async (receita, id, contentType) => {
         let resultReceitas = await receitaDAO.setUpdateRecipes(receita, id);
         if (resultReceitas) {
           MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status;
-          MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_UPDATED_ITEM.status_code;
-          MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_UPDATED_ITEM.message;
-          MESSAGES.DEFAULT_HEADER.items.usuario = usuario;
+          MESSAGES.DEFAULT_HEADER.status_code =
+            MESSAGES.SUCCESS_UPDATED_ITEM.status_code;
+          MESSAGES.DEFAULT_HEADER.message =
+            MESSAGES.SUCCESS_UPDATED_ITEM.message;
+          MESSAGES.DEFAULT_HEADER.usuario = usuario;
           return MESSAGES.DEFAULT_HEADER; //200
         } else {
           return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
@@ -195,9 +200,11 @@ const excluirReceita = async (id) => {
 
         if (resultReceitas) {
           MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETED_ITEM.status;
-          MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_DELETED_ITEM.status_code;
-          MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_DELETED_ITEM.message;
-          MESSAGES.DEFAULT_HEADER.items.receita = resultReceitas;
+          MESSAGES.DEFAULT_HEADER.status_code =
+            MESSAGES.SUCCESS_DELETED_ITEM.status_code;
+          MESSAGES.DEFAULT_HEADER.message =
+            MESSAGES.SUCCESS_DELETED_ITEM.message;
+          MESSAGES.DEFAULT_HEADER.receita = resultReceitas;
           delete MESSAGES.DEFAULT_HEADER.items;
           return MESSAGES.DEFAULT_HEADER; //200
         } else {

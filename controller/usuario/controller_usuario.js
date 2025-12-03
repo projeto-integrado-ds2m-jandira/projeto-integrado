@@ -26,7 +26,7 @@ const listarUsuarios = async () => {
       if (resultUsuarios.length > 0) {
         MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status;
         MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code;
-        MESSAGES.DEFAULT_HEADER.items.usuarios = resultUsuarios;
+        MESSAGES.DEFAULT_HEADER.usuarios = resultUsuarios;
 
         return MESSAGES.DEFAULT_HEADER; //200
       } else {
@@ -54,7 +54,7 @@ const buscarUsuarioId = async (id) => {
         if (resultUsuarios.length > 0) {
           MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status;
           MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code;
-          MESSAGES.DEFAULT_HEADER.items.usuarios = resultUsuarios;
+          MESSAGES.DEFAULT_HEADER.usuarios = resultUsuarios;
 
           return MESSAGES.DEFAULT_HEADER;
         } else {
@@ -101,15 +101,15 @@ const inserirUsuario = async (usuario, contentType) => {
           let getUser = await buscarUsuarioId(usuario.id);
 
           let userData = {
-            id: getUser.items.usuarios[0].id,
-            nome: getUser.items.usuarios[0].nome,
-            genero: getUser.items.usuarios[0].genero,
-            email: getUser.items.usuarios[0].email,
-            senha: getUser.items.usuarios[0].senha,
-            url_imagem: getUser.items.usuarios[0].url_imagem,
-            administrador: getUser.items.usuarios[0].administrador,
-            id_status: getUser.items.usuarios[0].id_status,
-            data_criacao: getUser.items.usuarios[0].data_criacao,
+            id: getUser.usuarios[0].id,
+            nome: getUser.usuarios[0].nome,
+            genero: getUser.usuarios[0].genero,
+            email: getUser.usuarios[0].email,
+            senha: getUser.usuarios[0].senha,
+            url_imagem: getUser.usuarios[0].url_imagem,
+            administrador: getUser.usuarios[0].administrador,
+            id_status: getUser.usuarios[0].id_status,
+            data_criacao: getUser.usuarios[0].data_criacao,
           };
 
           delete MESSAGES.DEFAULT_HEADER.items;
@@ -149,7 +149,7 @@ const atualizarUsuario = async (usuario, id, contentType) => {
           MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status;
           MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_UPDATED_ITEM.status_code;
           MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_UPDATED_ITEM.message;
-          MESSAGES.DEFAULT_HEADER.items.usuario = usuario;
+          MESSAGES.DEFAULT_HEADER.usuario = usuario;
           return MESSAGES.DEFAULT_HEADER; //200
         } else {
           return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
@@ -183,7 +183,7 @@ const excluirUsuario = async (id) => {
           MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETED_ITEM.status;
           MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_DELETED_ITEM.status_code;
           MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_DELETED_ITEM.message;
-          MESSAGES.DEFAULT_HEADER.items.usuario = resultUsuarios;
+          MESSAGES.DEFAULT_HEADER.usuario = resultUsuarios;
           delete MESSAGES.DEFAULT_HEADER.items;
           return MESSAGES.DEFAULT_HEADER; //200
         } else {

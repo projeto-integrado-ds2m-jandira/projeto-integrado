@@ -46,7 +46,7 @@ const prisma = new PrismaClient();
 const getSelectAllRecipes = async () => {
   try {
     //script SQL
-    let sql = `select * from tb_receitas where id_status = 1 order by id desc`;
+    let sql = `select * from tb_receitas where id_status = 1 order by id`;
 
     //encaminha para o BD o script SQL
     let result = await prisma.$queryRawUnsafe(sql);

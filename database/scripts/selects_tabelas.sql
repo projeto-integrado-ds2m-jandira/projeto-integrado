@@ -164,3 +164,130 @@ CALL sp_criar_receita (
     '2', 										-- p_categorias_ids: 2 (Sobremesa)
     '12:2:4; 9:1:4; 10:2:3' 					-- p_ingredientes_dados: Farinha(2:4); Chocolate(1:4); Manteiga(2:3)
 );
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE sp_criar_receita (
+    IN p_titulo VARCHAR(100),
+    IN p_descricao VARCHAR(1000),
+    IN p_tempo_preparo TIME,
+    IN p_passos_preparo TEXT,
+    IN p_calorias INT,
+    IN p_avaliacao INT,
+    IN p_likes INT,
+    IN p_url_imagem VARCHAR(250),
+    IN p_id_usuario INT,
+    IN p_id_dificuldade INT,
+    IN p_id_tipo_cozinha INT,
+    IN p_categorias_ids VARCHAR(1000), -- IDs de categorias separados por vírgula (ex: '1,5,10')
+    IN p_ingredientes_dados TEXT 		 -- Dados de ingredientes formatados (ex: '1:250:3;2:10:4')
+)
+BEGIN
+    DECLARE v_id_receita INT;
+    DECLARE v_categoria_id INT;
+    DECLARE v_ingrediente_id INT;
+    DECLARE v_unidade_id INT;
+    DECLARE v_quantidade INT;
+    DECLARE v_delimiter_categorias CHAR(1) DEFAULT ',';
+    DECLARE v_delimiter_ingredientes CHAR(1) DEFAULT ';';
+    DECLARE v_delimiter_dados CHAR(1) DEFAULT ':';
+    DECLARE v_temp_categoria VARCHAR(100);
+    DECLARE v_temp_ingrediente VARCHAR(100);
+    DECLARE v_pos_cat INT DEFAULT 1;
+    DECLARE v_pos_ing INT DEFAULT 1;
+
+    -- 1. Inserir na tabela tb_receitas
+    INSERT INTO tb_receitas (
+        titulo,
+        descricao,
+        tempo_preparo,
+        passos_preparo,
+        calorias,
+        avaliacao,
+        likes,
+        url_imagem,
+        data_cadastro,
+        id_usuario,
+        id_dificuldade,
+        id_tipo_cozinha,
+        id_status
+    )
+    VALUES (
+        p_titulo,
+        p_descricao,
+        p_tempo_preparo,
+        p_passos_preparo,
+        p_calorias,
+        p_avaliacao,
+        p_likes,
+        p_url_imagem,
+        CURDATE(), -- Usa a data atual
+        p_id_usuario,
+        p_id_dificuldade,
+        p_id_tipo_cozinha,
+        1 -- id_status padrão
+    );
+
+    -- Obter o ID da receita recém-criada
+    SET v_id_receita = LAST_INSERT_ID();
+
+    -- 2. Inserir na tabela tb_receitas_categorias
+    -- Loop para processar os IDs de categorias separados por vírgula
+    WHILE LENGTH(p_categorias_ids) > 0 DO
+        SET v_pos_cat = LOCATE(v_delimiter_categorias, p_categorias_ids);
+
+        IF v_pos_cat = 0 THEN
+            SET v_temp_categoria = p_categorias_ids;
+            SET p_categorias_ids = '';
+        ELSE
+            SET v_temp_categoria = SUBSTRING(p_categorias_ids, 1, v_pos_cat - 1);
+            SET p_categorias_ids = SUBSTRING(p_categorias_ids, v_pos_cat + 1);
+        END IF;
+
+        -- CORREÇÃO APLICADA AQUI:
+        -- Garante que a string temporária seja tratada como um inteiro.
+        -- Se a string for vazia ou inválida, CONVERT(TRIM(v_temp_categoria), UNSIGNED) resultará em 0 (ou erro, dependendo do SQL mode).
+        -- O uso de NULLIF(TRIM(v_temp_categoria), '') e CONVERT é a abordagem mais robusta.
+        SET v_categoria_id = CONVERT(NULLIF(TRIM(v_temp_categoria), ''), UNSIGNED);
+
+        IF v_categoria_id IS NOT NULL AND v_categoria_id > 0 THEN
+            INSERT INTO tb_receitas_categorias (id_receita, id_categoria)
+            VALUES (v_id_receita, v_categoria_id);
+        END IF;
+    END WHILE;
+
+    -- 3. Inserir na tabela tb_receitas_ingredientes
+    -- Loop para processar os dados de ingredientes separados por ponto e vírgula
+    WHILE LENGTH(p_ingredientes_dados) > 0 DO
+        SET v_pos_ing = LOCATE(v_delimiter_ingredientes, p_ingredientes_dados);
+
+        IF v_pos_ing = 0 THEN
+            SET v_temp_ingrediente = p_ingredientes_dados;
+            SET p_ingredientes_dados = '';
+        ELSE
+            SET v_temp_ingrediente = SUBSTRING(p_ingredientes_dados, 1, v_pos_ing - 1);
+            SET p_ingredientes_dados = SUBSTRING(p_ingredientes_dados, v_pos_ing + 1);
+        END IF;
+
+        -- CORREÇÃO APLICADA AQUI:
+        -- Adiciona CONVERT para garantir que os valores extraídos sejam tratados como inteiros.
+        -- O SUBSTRING_INDEX retorna uma string, e a atribuição a uma variável INT pode falhar ou ter comportamento inesperado
+        -- dependendo do SQL mode. O CONVERT garante a tipagem correta.
+        SET v_ingrediente_id = CONVERT(SUBSTRING_INDEX(v_temp_ingrediente, v_delimiter_dados, 1), UNSIGNED);
+        SET v_quantidade = CONVERT(SUBSTRING_INDEX(SUBSTRING_INDEX(v_temp_ingrediente, v_delimiter_dados, 2), v_delimiter_dados, -1), UNSIGNED);
+        SET v_unidade_id = CONVERT(SUBSTRING_INDEX(v_temp_ingrediente, v_delimiter_dados, -1), UNSIGNED);
+
+        IF v_ingrediente_id IS NOT NULL AND v_ingrediente_id > 0 AND v_unidade_id IS NOT NULL AND v_unidade_id > 0 THEN
+            INSERT INTO tb_receitas_ingredientes (id_receita, id_ingrediente, id_unidade, quantidade)
+            VALUES (v_id_receita, v_ingrediente_id, v_unidade_id, v_quantidade);
+        END IF;
+    END WHILE;
+    
+    -- Retorna o ID da nova receita
+    SELECT v_id_receita AS id_nova_receita;
+
+END $$
+
+DELIMITER ;
