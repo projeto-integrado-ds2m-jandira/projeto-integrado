@@ -15,16 +15,29 @@
 </head>
 
 <body class="flex flex-col">
-    <header class=" w-full items-center justify-between flex  flex-col">
-        <div class=" flex w-full justify-between items-center p-2">
+    <header class="w-full items-center justify-between flex  flex-col">
+        <div class="block sm:hidden">
+        <div class="flex w-full justify-between items-center p-2">
             <img class="w-24 p-0  m-0" src="./img/LogoCompleta.svg" alt="logo-querido-fogão">
             <img class="size-10" src="./img/User.svg" alt="Usuario">
         </div>
         <div class="flex items-center justify-center w-full p-3 ">
-            <div class="flex items-center justify-between p-3 bg-[#FFD4B9] border-none rounded-3xl w-80 h-[40px]">
+            <div class="flex items-center justify-between p-3 bg-[#FFD4B9] border-none rounded-3xl w-80 h-10">
                 <input class="text-[12px] text-[#DF5600]" placeholder="Digite o nome da receita" type="text">
                 <img class="size-4" src="./img/Buscar.svg" alt="icone-busca">
             </div>
+        </div>
+        </div>
+        <div class="hidden sm:block">
+            <div class="flex w-full justify-between items-center p-2">
+            <img class="w-24 p-0  m-0" src="./img/LogoCompleta.svg" alt="logo-querido-fogão">
+        </div>
+        <div class="flex items-center justify-center w-full p-3 ">
+            <div class="flex items-center justify-between p-3 bg-[#FFD4B9] border-none rounded-3xl w-80 h-10">
+                <input class="text-[12px] text-[#DF5600]" placeholder="Digite o nome da receita" type="text">
+                <img class="size-4" src="./img/Buscar.svg" alt="icone-busca">
+            </div>
+        </div>
         </div>
          <div class="flex w-full bg-[#DF5600] justify-center">
                 <nav class="  w-[92%]">
@@ -83,7 +96,7 @@
                 </ul>
             </div>
         </div>
-        <div class="flex itens-center p-2 text-center ">
+        <div class="flex itens-center m-2 text-center ">
             <p class="text-[#DF5600] italic font-['Inter'] text-xs">©2025 Querido Fogão | Todos os Direitos Reservados | Desenvolvido
                 por Rebeca Gomes, Maria Cecilia, Samara Santos, Tiago Guimarães</p>
         </div>
