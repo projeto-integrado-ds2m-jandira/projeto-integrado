@@ -101,7 +101,6 @@ const getSelectLastId = async () => {
   }
 };
 
-// getSelectLastId();
 
 //insere uma nova dificuldade no banco de dados.
 const setInsertDifficulty = async (dificuldade) => {
@@ -123,19 +122,13 @@ const setInsertDifficulty = async (dificuldade) => {
   }
 };
 
-// let newDifficulty = {
-//   nome: "Master Chef",
-// };
-
-// setInsertDifficulty(newDifficulty);
-
 // Altera uma dificuldade pelo ID no banco de dados
-const setUpdateDifficulty = async (dificuldade) => {
+const setUpdateDifficulty = async (dificuldade, id) => {
   try {
     let sql = `UPDATE tb_dificuldades SET
                         nome = '${dificuldade.nome}'
                                                
-                    WHERE id = ${dificuldade.id}`;
+                    WHERE id = ${id}`;
 
     //executeRawUnsafe() -> executa o script SQL que não tem retorno de valores
     let result = await prisma.$executeRawUnsafe(sql);
@@ -148,13 +141,6 @@ const setUpdateDifficulty = async (dificuldade) => {
     return false;
   }
 };
-
-// let updateDifficulty = {
-//   id: 4,
-//   nome: "Ratatouille",
-// };
-
-// setUpdateDifficulty(updateDifficulty);
 
 // Exclui uma dificuldade pelo ID no banco de dados
 const setDeleteDifficulty = async (id) => {
