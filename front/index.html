@@ -7,55 +7,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../src/output.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
     <title>Querido Fogão</title>
 </head>
 
 <body class="flex flex-col">
-    <header class="bg-blue-500 w-full items-center pl-1 pr-1 justify-between flex  flex-col">
-        <div class="bg-amber-700 flex w-full justify-between items-center p-2 ">
-            <img class="size-14 p-0 bg-amber-300" src="./img/LogoCompleta.svg" alt="logo-querido-fogão">
+    <header class=" w-full items-center justify-between flex  flex-col">
+        <div class=" flex w-full justify-between items-center p-2">
+            <img class="w-24 p-0  m-0" src="./img/LogoCompleta.svg" alt="logo-querido-fogão">
             <img class="size-10" src="./img/User.svg" alt="Usuario">
         </div>
-        <div class="flex items-center justify-center bg-emerald-400 w-full p-2">
-        <div class="flex items-center justify-between p-3 bg-[#FFD4B9] border-none rounded-3xl w-80 h-[47px]">
-            <input class="text-[12px] text-[#DF5600]" placeholder="Digite o nome da receita" type="text">
-            <img class="size-4" src="./img/Buscar.svg" alt="icone-busca">
+        <div class="flex items-center justify-center w-full p-3 ">
+            <div class="flex items-center justify-between p-3 bg-[#FFD4B9] border-none rounded-3xl w-80 h-[40px]">
+                <input class="text-[12px] text-[#DF5600]" placeholder="Digite o nome da receita" type="text">
+                <img class="size-4" src="./img/Buscar.svg" alt="icone-busca">
+            </div>
         </div>
-        </div>
+         <div class="flex w-full bg-[#DF5600] justify-center">
+                <nav class="  w-[92%]">
+                    <ul class="flex flex-wrap text-white h-15 pb-1 pt-1 pr-3 pl-3 justify-between items-center font-['Inter'] font-semibold text-[15px]">
+                        <li>
+                            <p>PRATO PRINCIPAL</p>
+                        </li>
+                        <li>
+                            <p>SOBREMESA</p>
+                        </li>
+                        <li>
+                            <p>VEGANA</p>
+                        </li>
+                        <li>
+                            <p>SALGADO</p>
+                        </li>
+                        <li>
+                            <p>MASSAS</p>
+                        </li>
+                        <li>
+                            <p>SAUDÁVEL</p>
+                        </li>
+                        <li>
+                            <p>CULINÁRIA</p>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
     </header>
     <main class=" flex  w-full h-[600px]">
     </main>
     <footer class="w-full pt-2 flex flex-col">
         <div class="flex border-t-[#DF5600] w-full border-b-[#DF5600] border-3 border-l-0 border-r-0 ">
             <div class="p-10">
-            <img src="./img/LogoQueridoFogao.svg" alt="logo-querido-fogao">
+                <img src="./img/LogoQueridoFogao.svg" alt="logo-querido-fogao">
             </div>
-            <div class="flex bg-amber-500 flex-col justify-center p-3 w-3/4">
-                <h3 class=" bg-amber-950 text-start pl-8">REDES SOCIAIS</h3>
-                <ul class="bg-emerald-600 text-center flex p-2 flex-col">
-                    <li class="flex bg-amber-400 items-start">
+            <div class="flex flex-col justify-center p-3 w-3/4">
+                <h3 class=" text-start pl-10 text-[#DF5600] font-['Inter'] font-bold">REDES SOCIAIS</h3>
+                <ul class=" text-center flex p-2 flex-col">
+                    <li class="flex  items-start">
                         <img class="size-6" src="./img/Instagram (3).svg" alt="instagram-querido-fogao">
-                        <p class="pl-1">@querido_fogao</p>
+                        <p class="pl-1 font-['Inter']  text-[#DF5600] font-bold">@querido_fogao</p>
                     </li>
                     <li class="flex items-start">
                         <img class="size-6" src="./img/Facebook.svg" alt="Facebook-querido-fogao">
-                        <p class="pl-1">Querido Fogão</p>
+                        <p class="pl-1 font-['Inter']  text-[#DF5600] font-bold">Querido Fogão</p>
                     </li>
                     <li class="flex">
                         <img class="size-6" src="./img/YouTube.svg" alt="youtube-querido-fogao">
-                        <p class="pl-1 font-[Inter] font-bold">Querido Fogão Oficial</p>
+                        <p class="pl-1 font-['Inter']  text-[#DF5600] font-bold">Querido Fogão Oficial</p>
                     </li>
                     <li class="flex">
                         <img src="./img/X.svg" alt="x-querido-fogao">
-                        <p class="pl-1">@querido_fogao</p>
+                        <p class="pl-1 font-['Inter']  text-[#DF5600] font-bold">@querido_fogao</p>
                     </li>
                 </ul>
             </div>
         </div>
-        <div class="flex itens-center pt-2 pl-2 text-center">
-            <p class="text-[#DF5600] italic text-xs">©2025 Querido Fogão | Todos os Direitos Reservados | Desenvolvido por Rebeca Gomes, Maria Cecilia, Samara Santos, Tiago Guimarães</p>
+        <div class="flex itens-center p-2 text-center ">
+            <p class="text-[#DF5600] italic font-['Inter'] text-xs">©2025 Querido Fogão | Todos os Direitos Reservados | Desenvolvido
+                por Rebeca Gomes, Maria Cecilia, Samara Santos, Tiago Guimarães</p>
         </div>
     </footer>
 </body>
