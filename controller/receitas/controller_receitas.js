@@ -120,32 +120,32 @@ const inserirReceita = async (dadosBody, contentType) => {
   }
 };
 
-const novaReceita = {
-  titulo: "Teste Bolo",
-  descricao: "Um bolo fácil e rápido.",
-  tempo_preparo: "00:40:00",
-  passos_preparo: "Misture os secos, adicione os líquidos, asse por 40 min.",
-  calorias: 320,
-  url_imagem: "http://img.com/bolo.jpg",
-  id_usuario: 3,
-  id_dificuldade: 1,
-  id_tipo_cozinha: 1,
-  categorias: [2, 1], // Array de IDs de categorias (Sobremesa, Prato Principal)
-  ingredientes: [
-    {
-      id_ingrediente: 12,
-      quantidade: 2,
-      id_unidade: 4,
-    },
-    {
-      id_ingrediente: 9,
-      quantidade: 1,
-      id_unidade: 4,
-    },
-  ],
-};
+// const novaReceita = {
+//   titulo: "Teste Bolo",
+//   descricao: "Um bolo fácil e rápido.",
+//   tempo_preparo: "00:40:00",
+//   passos_preparo: "Misture os secos, adicione os líquidos, asse por 40 min.",
+//   calorias: 320,
+//   url_imagem: "http://img.com/bolo.jpg",
+//   id_usuario: 3,
+//   id_dificuldade: 1,
+//   id_tipo_cozinha: 1,
+//   categorias: [2, 1], // Array de IDs de categorias (Sobremesa, Prato Principal)
+//   ingredientes: [
+//     {
+//       id_ingrediente: 12,
+//       quantidade: 2,
+//       id_unidade: 4,
+//     },
+//     {
+//       id_ingrediente: 9,
+//       quantidade: 1,
+//       id_unidade: 4,
+//     },
+//   ],
+// };
 
-inserirReceita(novaReceita, "application/json");
+// inserirReceita(novaReceita, "application/json");
 
 //atualiza uma receita buscando pelo id
 
