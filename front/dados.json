@@ -1,0 +1,23 @@
+[
+{
+    "user": "Julia Souza",
+    "email": "juliasouza008@gmail.com",
+    "senha": "123456789",
+    "img": "",
+    "Suas receitas": [{
+                        "img": "./img_emulacao/Rounded rectangle (1).svg",
+                        "nome": "avocado Toast"
+                        },
+                        {
+                        "img": "./img_emulacao/Rounded rectangle (2).svg",
+                        "nome": "Pao com ovo mexido e cogumenlos"
+                        },
+                        {
+                            "img": "./img_emulacao/Rounded rectangle.svg",
+                            "nome": "Pate de ovo fit"
+                        }
+                    ]
+}
+]
+
+
