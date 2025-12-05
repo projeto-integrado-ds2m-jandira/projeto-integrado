@@ -23,7 +23,7 @@ const listarIngredientes = async function () {
             if (resultIngredientes.length > 0) {
                 MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status;
                 MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code;
-                MESSAGES.DEFAULT_HEADER.items.ingredientes = resultIngredientes;
+                MESSAGES.DEFAULT_HEADER.ingredientes = resultIngredientes;
 
                 return MESSAGES.DEFAULT_HEADER; //200
             } else {
@@ -48,7 +48,7 @@ const buscarIngredientesId = async function (id) {
                 if (resultIngredientes.length > 0) {
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_REQUEST.status;
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_REQUEST.status_code;
-                    MESSAGES.DEFAULT_HEADER.items.ingredientes = resultIngredientes;
+                    MESSAGES.DEFAULT_HEADER.ingredientes = resultIngredientes;
 
                     return MESSAGES.DEFAULT_HEADER;
                 } else {
@@ -88,13 +88,12 @@ const inserirIngrediente = async function (ingrediente, contentType) {
                     let getIngrediente = await buscarIngredientesId(ingrediente.id);
 
                     let ingredienteData = {
-                        id: getIngrediente.items.ingredientes[0].id,
-                        nome: getIngrediente.items.ingredientes[0].nome,
-                        alergeno: getIngrediente.items.ingredientes[0].alergeno,
-                        tipo: getIngrediente.items.ingredientes[0].tipo
+                        id: getIngrediente.ingredientes[0].id,
+                        nome: getIngrediente.ingredientes[0].nome,
+                        alergeno: getIngrediente.ingredientes[0].alergeno,
+                        tipo: getIngrediente.ingredientes[0].tipo
                     };
 
-                    delete MESSAGES.DEFAULT_HEADER.items;
                     MESSAGES.DEFAULT_HEADER.ingrediente = ingredienteData;
                     return MESSAGES.DEFAULT_HEADER;
                 } else {
@@ -129,7 +128,7 @@ const atualizarIngrediente = async function (ingrediente, id, contentType) {
                     MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_UPDATED_ITEM.status;
                     MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_UPDATED_ITEM.status_code;
                     MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_UPDATED_ITEM.message;
-                    MESSAGES.DEFAULT_HEADER.items.ingrediente = ingrediente;
+                    MESSAGES.DEFAULT_HEADER.ingrediente = ingrediente;
 
                     return MESSAGES.DEFAULT_HEADER; // 200
                 } else {
@@ -165,8 +164,8 @@ const excluirIngrediente = async function (id) {
               MESSAGES.DEFAULT_HEADER.status = MESSAGES.SUCCESS_DELETED_ITEM.status;
               MESSAGES.DEFAULT_HEADER.status_code = MESSAGES.SUCCESS_DELETED_ITEM.status_code;
               MESSAGES.DEFAULT_HEADER.message = MESSAGES.SUCCESS_DELETED_ITEM.message;
-              MESSAGES.DEFAULT_HEADER.items.ingrediente = resultIngredientes;
-              delete MESSAGES.DEFAULT_HEADER.items;
+              MESSAGES.DEFAULT_HEADER.ingrediente = resultIngredientes;
+              
               return MESSAGES.DEFAULT_HEADER; //200
             } else {
               return MESSAGES.ERROR_INTERNAL_SERVER_MODEL; //500
