@@ -3,7 +3,7 @@
 
 <head>
     <link rel="shortcut icon" href="./img/LogoQueridoFogao.svg" type="image/x-icon">
-    <script src="./tela_login.js" defer type="module"></script>
+    <script src="./module/app.js" defer type="module"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../src/output.css">
@@ -32,16 +32,18 @@
         <div class="hidden sm:block w-full">
             <div class=" flex justify-between w-full p-5 items-center lg:p-7">
                 <img class="w-24 p-0  m-0" src="./img/LogoCompleta.svg" alt="logo-querido-fogão">
-                <div class="flex items-center justify-between p-3 bg-[#FFD4B9] border-none rounded-3xl w-md h-11 lg:w-4xl ">
+                <div
+                    class="flex items-center justify-between p-3 bg-[#FFD4B9] border-none rounded-3xl w-md h-11 lg:w-4xl ">
                     <input class="text-[12px] text-[#DF5600]" placeholder="Digite o nome da receita" type="text">
                     <img class="size-4" src="./img/Buscar.svg" alt="icone-busca">
                 </div>
                 <img class="size-10" src="./img/User.svg" alt="Usuario">
-                </div>
+            </div>
         </div>
         <div class="flex w-full bg-[#DF5600] justify-center">
             <nav class=" w-[92%] ">
-                <ul class="flex flex-wrap text-white h-15 pb-1 pt-1 pr-3 pl-3 justify-between items-center font-['Inter'] font-semibold text-[15px] lg:p-0">
+                <ul
+                    class="flex flex-wrap text-white h-15 pb-1 pt-1 pr-3 pl-3 justify-between items-center font-['Inter'] font-semibold text-[15px] lg:p-0">
                     <li>
                         <p>PRATO PRINCIPAL</p>
                     </li>
@@ -67,10 +69,54 @@
             </nav>
         </div>
     </header>
-    <main class=" flex w-full">
+    <main class="flex w-full flex-col pt-3.5 items-center">
+        <div class="sm:flex sm:w-full">
+        <div class="flex flex-col items-center w-full  sm:w-[40%]">
+            <div class="flex w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] rounded-full border-2 border-[#DF5600]">
+                <img class="object-cover w-full rounded-full" src="./img/user.jfif" alt="usuario">
+            </div>
+        </div>
+        <div class="w-full flex flex-col items-center  sm:w-[60%]  sm:p-9 ">
+                <h1 class="font-['Inter'] font-bold p-0.5 sm:text-[25px] text-[#742D00]">JULIA SOUZA</h1>
+            <div class="p-1">
+                <p class="font-['Inter'] font-bold p-0.5 text-[#742D00] sm:text-[20px]">E-mail</p>
+                <input class=" w-[320px] sm:w-[480px] border border-[#DF5600] rounded-[5px] " type="email" name="" id="">
+            </div>
+            <div class="flex items-center justify-center gap-2">
+                <div>
+                    <p class="font-['Inter'] font-bold p-0.5 text-[#742D00] sm:text-[20px]">Nickname</p>
+                    <input class="w-40 sm:w-60 border border-[#DF5600] rounded-[5px]" type="text">
+                </div>
+                <div>
+                    <p class="font-['Inter'] font-bold p-0.5 text-[#742D00] sm:text-[20px]">Senha</p>
+                    <input class="w-40 sm:w-60 border border-[#DF5600] rounded-[5px]" type="password" name="" id="">
+                </div>
+            </div>
+        </div>
+    </div>
+        <section class="w-full flex flex-col items-center sm:items-start pl-2 pt-5 pb-5 justify-center gap-3">
+            <p
+                class="w-28 flex items-center justify-center font-['Inter'] bg-[#DF5600] p-1 text-[12px] sm:text-[20px] sm:w-36 text-white rounded-xl">
+                SUAS RECEITAS</p>
+            <div class="flex items-center flex-col sm:flex-row w-[80%] sm:w-full gap-3 bg-amber-950">
+                <div class="flex flex-col items-center text-center">
+                    <img class="w-[200px] sm:w-[250px]" src="./img_emulacao/Rounded rectangle (1).svg" alt="">
+                    <p class="font-['Inter'] font-semibold text-[#139DA7] w-60 sm:w-72">Avocado Toast</p>
+                </div>
+                <div class="flex flex-col items-center text-center">
+                    <img class="w-[200px] sm:w-[250px]" src="./img_emulacao/Rounded rectangle (2).svg" alt="">
+                    <p class="font-['Inter'] font-semibold text-[#139DA7] w-60 sm:w-72 ">Pão com ovo mexido e cogumelos</p>
+                </div>
+                <div class="flex flex-col items-center text-center">
+                    <img class="w-[200px] sm:w-[250px]" src="./img_emulacao/Rounded rectangle.svg" alt="">
+                    <p class="w-60  font-['Inter'] font-semibold text-[#139DA7] sm:w-72 ">Pate de ovo fit</p>
+                </div>
+            </div>
+        </section>
     </main>
     <footer class="w-full pt-2 flex flex-col sm:items-center lg:items-center lg:justify-center">
-        <div class="flex border-t-[#DF5600] w-full border-b-[#DF5600] border-3 border-l-0 border-r-0 lg:items-center lg:justify-center">
+        <div
+            class="flex border-t-[#DF5600] w-full border-b-[#DF5600] border-3 border-l-0 border-r-0 lg:items-center lg:justify-center">
             <div class="p-9 sm:w-[50%] flex lg:items-center lg:justify-center lg:w-[17%] lg:p-2 ">
                 <img src="./img/LogoQueridoFogao.svg" alt="logo-querido-fogao">
             </div>
