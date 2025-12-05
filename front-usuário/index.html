@@ -3,6 +3,7 @@
 
 <head>
     <link rel="shortcut icon" href="./img/LogoQueridoFogao.svg" type="image/x-icon">
+    <script src="./tela_login.js" defer type="module"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../src/output.css">
@@ -11,6 +12,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caprasimo&display=swap" rel="stylesheet">
     <title>Querido Fogão</title>
 </head>
 
@@ -23,7 +27,7 @@
             </div>
             <div class="flex items-center justify-center w-full p-3 ">
                 <div class="flex items-center justify-between p-3 bg-[#FFD4B9] border-none rounded-3xl w-80 h-10">
-                    <input class="text-[12px] text-[#DF5600]" placeholder="Digite o nome da receita" type="text">
+                    <input class="text-[12px] text-[#DF5600]" placeholder="pesquise sua receita" type="text">
                     <img class="size-4" src="./img/Buscar.svg" alt="icone-busca">
                 </div>
             </div>
@@ -31,16 +35,18 @@
         <div class="hidden sm:block w-full">
             <div class=" flex justify-between w-full p-5 items-center lg:p-7">
                 <img class="w-24 p-0  m-0" src="./img/LogoCompleta.svg" alt="logo-querido-fogão">
-                <div class="flex items-center justify-between p-3 bg-[#FFD4B9] border-none rounded-3xl w-md h-11 lg:w-4xl ">
-                    <input class="text-[12px] text-[#DF5600]" placeholder="Digite o nome da receita" type="text">
+                <div
+                    class="flex items-center justify-between p-3 bg-[#FFD4B9] border-none rounded-3xl w-md h-11 lg:w-4xl ">
+                    <input class="text-[12px] text-[#DF5600]" placeholder="pesquise sua receita" type="text">
                     <img class="size-4" src="./img/Buscar.svg" alt="icone-busca">
                 </div>
                 <img class="size-10" src="./img/User.svg" alt="Usuario">
-                </div>
+            </div>
         </div>
         <div class="flex w-full bg-[#DF5600] justify-center">
             <nav class=" w-[92%] ">
-                <ul class="flex flex-wrap text-white h-15 pb-1 pt-1 pr-3 pl-3 justify-between items-center font-['Inter'] font-semibold text-[15px] lg:p-0">
+                <ul
+                    class="flex flex-wrap text-white h-15 pb-1 pt-1 pr-3 pl-3 justify-between items-center font-['Inter'] font-semibold text-[15px] lg:p-0">
                     <li>
                         <p>PRATO PRINCIPAL</p>
                     </li>
@@ -66,10 +72,37 @@
             </nav>
         </div>
     </header>
-    <main class=" flex  w-full h-[600px]">
+    <main class="flex h-[517px] md:h-[799px]">
+        <div class="flex-col space-y-5 mx-auto flex justify-center items-center md:space-y-10">
+            <h1 class="text-[#742D00] text-[36px] font-['Caprasimo'] font-regular md:text-[44px] xl:text-[48px]">Entre na sua conta</h1>
+            <div class="space-y-2 md:space-y-8">
+                <div>
+                    <h3 class="text-[#742D00] text-[20px] font-bold font-['Inter'] md:text-[26px] xl:text-[32px]">E-mail</h3>
+                    <input class="border-1 border-[#DF5600] w-[350px] h-[34px] rounded-lg font-bold pl-3 md:w-[642px] md:h-[49px] md:rounded-[18px] xl:w-[648px] xl:h-[59px]" type="text">
+                </div>
+                <div>
+                    <h3 class="text-[#742D00] text-[20px] font-bold font-['Inter'] md:text-[26px] xl:text-[32px]">Senha</h3>
+                    <input class="border-1 border-[#DF5600] w-[350px] h-[34px] rounded-lg font-bold pl-3 md:w-[642px] md:h-[49px] md:rounded-[18px] xl:w-[648px] xl:h-[59px]"
+                        type="text"></input>
+                </div>
+            </div>
+            <div class="md:w-[639px]">
+                <p class="italic text-center font-light font-['Inter'] text-[12px] md:text-[17px] md:font-['Inter']">Ao entrar em uma conta, você
+                    concorda com os Termos de Uso e Política de Privacidade da Querido Fogão®.</p>
+            </div>
+            <button
+                class="bg-[#DF5600] w-[140px] h-[50px] rounded-xl text-white font-bold text-[20px] flex justify-center items-center focus:ring focus:ring-orange-500 focus:ring-opacity-50
+                active:bg-orange-500 
+                transition duration-150 md:w-[200px] md:h-[77px] md:text-[25px]">Entrar</button>
+            <div class="flex-row flex gap-[5px]">
+                <p class="text-black font-semi-bold md:text-[20px]">Não possui uma conta?</p>
+                <p class="text-[#0F8A93] font-semi-bold underline md:text-[20px]">Clique aqui!</p>
+            </div>
+        </div>
     </main>
-    <footer class="w-full pt-2 flex flex-col sm:items-center lg:items-center lg:justify-center ">
-        <div class="flex border-t-[#DF5600] w-full border-b-[#DF5600] border-3 border-l-0 border-r-0 lg:items-center lg:justify-center">
+    <footer class="w-full pt-2 flex flex-col sm:items-center lg:items-center lg:justify-center">
+        <div
+            class="flex border-t-[#DF5600] w-full border-b-[#DF5600] border-3 border-l-0 border-r-0 lg:items-center lg:justify-center">
             <div class="p-9 sm:w-[50%] flex lg:items-center lg:justify-center lg:w-[17%] lg:p-2 ">
                 <img src="./img/LogoQueridoFogao.svg" alt="logo-querido-fogao">
             </div>
@@ -78,19 +111,19 @@
                 <ul class=" text-center flex p-3 flex-col">
                     <li class="flex  items-start">
                         <img class="size-6" src="./img/Instagram (3).svg" alt="instagram-querido-fogao">
-                        <p class="pl-px font-['Inter']  text-[#DF5600] font-bold">@querido_fogao</p>
+                        <p class="pl-px font-['Inter']  text-[#DF5600] font-bold">@querido_fogão</p>
                     </li>
                     <li class="flex items-start">
                         <img class="size-6" src="./img/Facebook.svg" alt="Facebook-querido-fogao">
-                        <p class="pl-px font-['Inter']  text-[#DF5600] font-bold">Querido Fogão</p>
+                        <p class="pl-px font-['Inter']  text-[#DF5600] font-bold">@querido_fogão</p>
                     </li>
                     <li class="flex items-start ">
                         <img class="size-6" src="./img/YouTube.svg" alt="youtube-querido-fogao">
-                        <p class="pl-px font-['Inter']  text-[#DF5600] font-bold">Querido Fogão Oficial</p>
+                        <p class="pl-px font-['Inter']  text-[#DF5600] font-bold">@queridofogão_oficial</p>
                     </li>
                     <li class="flex">
                         <img src="./img/X.svg" alt="x-querido-fogao">
-                        <p class="pl-px font-['Inter']  text-[#DF5600] font-bold">@querido_fogao</p>
+                        <p class="pl-px font-['Inter']  text-[#DF5600] font-bold">@querido_fogão</p>
                     </li>
                 </ul>
             </div>
